@@ -17,6 +17,15 @@
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <GenerateResourceMSBuildArchitecture>
+      CurrentArchitecture
+    </GenerateResourceMSBuildArchitecture>
+    <GenerateResourceMSBuildRuntime>
+      CurrentRuntime
+    </GenerateResourceMSBuildRuntime>
+  </PropertyGroup>
+
   <ItemGroup>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
       <_Parameter1>Intersect.Tests.Editor</_Parameter1>
@@ -94,6 +103,7 @@
     <PackageReference Include="SharpDX.XAudio2" Version="4.0.1" />
     <PackageReference Include="SharpDX.XInput" Version="4.0.1" />
     <PackageReference Include="System.Collections.Concurrent" Version="4.3.0" />
+    <PackageReference Include="System.Resources.Extensions" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
