@@ -39,8 +39,9 @@
 name: .NET Core Desktop
 
 on:
-  pull_request:
-    types: [closed]
+  push:
+    branches:
+      - dev-build
 
 jobs:
 
