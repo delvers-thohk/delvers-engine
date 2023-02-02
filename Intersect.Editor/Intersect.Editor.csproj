@@ -24,6 +24,9 @@
     <GenerateResourceMSBuildRuntime>
       CurrentRuntime
     </GenerateResourceMSBuildRuntime>
+    <GenerateResourceUsePreserializedResources>
+      True
+    </GenerateResourceUsePreserializedResources>
   </PropertyGroup>
 
   <ItemGroup>
