@@ -2153,6 +2153,10 @@ namespace Intersect.Client.Entities
         //Override of the original function, used for rendering the color of a player based on rank
         public override void DrawName(Color textColor, Color borderColor, Color backgroundColor)
         {
+            if (Maps.MapInstance.Get(MapId).ZoneType == MapZones.Safe)
+            {
+
+
             if (textColor == null)
             {
                 if (Aggression == 1) //Mod
@@ -2186,6 +2190,7 @@ namespace Intersect.Client.Entities
             }
 
             DrawNameAndLabels(textColor, borderColor, backgroundColor);
+            }
         }
 
         private void DrawNameAndLabels(Color textColor, Color borderColor, Color backgroundColor)
