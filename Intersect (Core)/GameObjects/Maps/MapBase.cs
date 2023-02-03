@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
@@ -289,7 +289,7 @@ namespace Intersect.GameObjects.Maps
 
         public int Brightness { get; set; } = 100;
 
-        public MapZones ZoneType { get; set; } = MapZones.Normal;
+        public MapTypeBase MapType { get; set; }
 
         public int PlayerLightSize { get; set; } = 300;
 

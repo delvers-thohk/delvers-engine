@@ -79,7 +79,7 @@ namespace Intersect.Editor.Forms
 
         private FrmTime mTimeEditor;
 
-        private FrmDelvers mDelversEditor;
+        private FrmCustomEditor mCustomEditor;
 
         //General Editting Variables
         bool mTMouseDown;
@@ -1303,9 +1303,9 @@ namespace Intersect.Editor.Forms
             PacketSender.SendOpenEditor(GameObjectType.Time);
         }
 
-        private void delversEditorToolStripMenuItem_Click(object sender, EventArgs e)
+        private void customEditorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            PacketSender.SendOpenEditor(GameObjectType.Delvers);
+            PacketSender.SendOpenEditor(GameObjectType.MapType);
         }
 
         private void layersToolStripMenuItem_DropDownOpened(object sender, EventArgs e)
@@ -1727,12 +1727,12 @@ namespace Intersect.Editor.Forms
 
                         break;
 
-                    case GameObjectType.Delvers:
-                        if (mDelversEditor == null || mDelversEditor.Visible == false)
+                    case GameObjectType.MapType:
+                        if (mCustomEditor == null || mCustomEditor.Visible == false)
                         {
-                            mDelversEditor = new FrmDelvers();
-                            mDelversEditor.InitEditor();
-                            mDelversEditor.Show();
+                            mCustomEditor = new FrmCustomEditor();
+                            mCustomEditor.InitEditor();
+                            mCustomEditor.Show();
                         }
 
                         break;

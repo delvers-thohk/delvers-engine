@@ -85,9 +85,9 @@ namespace Intersect.Editor.Forms.Editors.Events.Event_Commands
             this.optBooleanGuildVariable = new DarkUI.Controls.DarkRadioButton();
             this.cmbBooleanGlobalVariable = new DarkUI.Controls.DarkComboBox();
             this.optBooleanGlobalVariable = new DarkUI.Controls.DarkRadioButton();
-            this.grpMapZoneType = new DarkUI.Controls.DarkGroupBox();
-            this.lblMapZoneType = new System.Windows.Forms.Label();
-            this.cmbMapZoneType = new DarkUI.Controls.DarkComboBox();
+            this.grpMapType = new DarkUI.Controls.DarkGroupBox();
+            this.lblMapType = new System.Windows.Forms.Label();
+            this.cmbMapType = new DarkUI.Controls.DarkComboBox();
             this.grpInGuild = new DarkUI.Controls.DarkGroupBox();
             this.lblRank = new System.Windows.Forms.Label();
             this.cmbRank = new DarkUI.Controls.DarkComboBox();
@@ -167,7 +167,7 @@ namespace Intersect.Editor.Forms.Editors.Events.Event_Commands
             ((System.ComponentModel.ISupportInitialize)(this.nudVariableValue)).BeginInit();
             this.grpStringVariable.SuspendLayout();
             this.grpBooleanVariable.SuspendLayout();
-            this.grpMapZoneType.SuspendLayout();
+            this.grpMapType.SuspendLayout();
             this.grpInGuild.SuspendLayout();
             this.grpQuestCompleted.SuspendLayout();
             this.grpQuestInProgress.SuspendLayout();
@@ -190,7 +190,7 @@ namespace Intersect.Editor.Forms.Editors.Events.Event_Commands
             this.grpConditional.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.grpConditional.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
             this.grpConditional.Controls.Add(this.grpVariable);
-            this.grpConditional.Controls.Add(this.grpMapZoneType);
+            this.grpConditional.Controls.Add(this.grpMapType);
             this.grpConditional.Controls.Add(this.grpInGuild);
             this.grpConditional.Controls.Add(this.chkHasElse);
             this.grpConditional.Controls.Add(this.chkNegated);
@@ -999,49 +999,49 @@ namespace Intersect.Editor.Forms.Editors.Events.Event_Commands
             this.optBooleanGlobalVariable.TabIndex = 46;
             this.optBooleanGlobalVariable.Text = "Global Variable Value:";
             // 
-            // grpMapZoneType
+            // grpMapType
             // 
-            this.grpMapZoneType.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
-            this.grpMapZoneType.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
-            this.grpMapZoneType.Controls.Add(this.lblMapZoneType);
-            this.grpMapZoneType.Controls.Add(this.cmbMapZoneType);
-            this.grpMapZoneType.ForeColor = System.Drawing.Color.Gainsboro;
-            this.grpMapZoneType.Location = new System.Drawing.Point(8, 39);
-            this.grpMapZoneType.Name = "grpMapZoneType";
-            this.grpMapZoneType.Size = new System.Drawing.Size(262, 71);
-            this.grpMapZoneType.TabIndex = 58;
-            this.grpMapZoneType.TabStop = false;
-            this.grpMapZoneType.Text = "Map Zone Type Is:";
-            this.grpMapZoneType.Visible = false;
+            this.grpMapType.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
+            this.grpMapType.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
+            this.grpMapType.Controls.Add(this.lblMapType);
+            this.grpMapType.Controls.Add(this.cmbMapType);
+            this.grpMapType.ForeColor = System.Drawing.Color.Gainsboro;
+            this.grpMapType.Location = new System.Drawing.Point(8, 39);
+            this.grpMapType.Name = "grpMapType";
+            this.grpMapType.Size = new System.Drawing.Size(262, 71);
+            this.grpMapType.TabIndex = 58;
+            this.grpMapType.TabStop = false;
+            this.grpMapType.Text = "Map Type Is:";
+            this.grpMapType.Visible = false;
             // 
-            // lblMapZoneType
+            // lblMapType
             // 
-            this.lblMapZoneType.AutoSize = true;
-            this.lblMapZoneType.Location = new System.Drawing.Point(6, 21);
-            this.lblMapZoneType.Name = "lblMapZoneType";
-            this.lblMapZoneType.Size = new System.Drawing.Size(86, 13);
-            this.lblMapZoneType.TabIndex = 5;
-            this.lblMapZoneType.Text = "Map Zone Type:";
+            this.lblMapType.AutoSize = true;
+            this.lblMapType.Location = new System.Drawing.Point(6, 21);
+            this.lblMapType.Name = "lblMapType";
+            this.lblMapType.Size = new System.Drawing.Size(86, 13);
+            this.lblMapType.TabIndex = 5;
+            this.lblMapType.Text = "Map Type:";
             // 
-            // cmbMapZoneType
+            // cmbMapType
             // 
-            this.cmbMapZoneType.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(73)))), ((int)(((byte)(74)))));
-            this.cmbMapZoneType.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
-            this.cmbMapZoneType.BorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
-            this.cmbMapZoneType.ButtonColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(43)))), ((int)(((byte)(43)))));
-            this.cmbMapZoneType.DrawDropdownHoverOutline = false;
-            this.cmbMapZoneType.DrawFocusRectangle = false;
-            this.cmbMapZoneType.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.cmbMapZoneType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbMapZoneType.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cmbMapZoneType.ForeColor = System.Drawing.Color.Gainsboro;
-            this.cmbMapZoneType.FormattingEnabled = true;
-            this.cmbMapZoneType.Location = new System.Drawing.Point(92, 18);
-            this.cmbMapZoneType.Name = "cmbMapZoneType";
-            this.cmbMapZoneType.Size = new System.Drawing.Size(162, 21);
-            this.cmbMapZoneType.TabIndex = 3;
-            this.cmbMapZoneType.Text = null;
-            this.cmbMapZoneType.TextPadding = new System.Windows.Forms.Padding(2);
+            this.cmbMapType.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(73)))), ((int)(((byte)(74)))));
+            this.cmbMapType.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
+            this.cmbMapType.BorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
+            this.cmbMapType.ButtonColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(43)))), ((int)(((byte)(43)))));
+            this.cmbMapType.DrawDropdownHoverOutline = false;
+            this.cmbMapType.DrawFocusRectangle = false;
+            this.cmbMapType.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cmbMapType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbMapType.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cmbMapType.ForeColor = System.Drawing.Color.Gainsboro;
+            this.cmbMapType.FormattingEnabled = true;
+            this.cmbMapType.Location = new System.Drawing.Point(92, 18);
+            this.cmbMapType.Name = "cmbMapType";
+            this.cmbMapType.Size = new System.Drawing.Size(162, 21);
+            this.cmbMapType.TabIndex = 3;
+            this.cmbMapType.Text = null;
+            this.cmbMapType.TextPadding = new System.Windows.Forms.Padding(2);
             // 
             // grpInGuild
             // 
@@ -2030,8 +2030,8 @@ namespace Intersect.Editor.Forms.Editors.Events.Event_Commands
             this.grpStringVariable.PerformLayout();
             this.grpBooleanVariable.ResumeLayout(false);
             this.grpBooleanVariable.PerformLayout();
-            this.grpMapZoneType.ResumeLayout(false);
-            this.grpMapZoneType.PerformLayout();
+            this.grpMapType.ResumeLayout(false);
+            this.grpMapType.PerformLayout();
             this.grpInGuild.ResumeLayout(false);
             this.grpInGuild.PerformLayout();
             this.grpQuestCompleted.ResumeLayout(false);
@@ -2174,9 +2174,9 @@ namespace Intersect.Editor.Forms.Editors.Events.Event_Commands
         private DarkGroupBox grpInGuild;
         private System.Windows.Forms.Label lblRank;
         private DarkComboBox cmbRank;
-        private DarkGroupBox grpMapZoneType;
-        private System.Windows.Forms.Label lblMapZoneType;
-        private DarkComboBox cmbMapZoneType;
+        private DarkGroupBox grpMapType;
+        private System.Windows.Forms.Label lblMapType;
+        private DarkComboBox cmbMapType;
         private DarkCheckBox chkBank;
         private DarkGroupBox grpCheckEquippedSlot;
         private DarkComboBox cmbCheckEquippedSlot;

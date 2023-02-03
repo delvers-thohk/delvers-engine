@@ -573,6 +573,10 @@ namespace Intersect.Server.Database
                     UserVariableBase.Lookup.Clear();
 
                     break;
+                case GameObjectType.MapType:
+                    MapTypeBase.Lookup.Clear();
+
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }
@@ -716,6 +720,13 @@ namespace Intersect.Server.Database
                             foreach (var psw in context.UserVariables)
                             {
                                 UserVariableBase.Lookup.Set(psw.Id, psw);
+                            }
+
+                            break;
+                        case GameObjectType.MapType:
+                            foreach (var psw in context.MapType)
+                            {
+                                MapTypeBase.Lookup.Set(psw.Id, psw);
                             }
 
                             break;

@@ -1453,13 +1453,13 @@ namespace Intersect.Server.Entities
                 if (!friendly && (spell?.Combat?.TargetType != SpellTargetTypes.Self && spell?.Combat?.TargetType != SpellTargetTypes.AoE && spell?.SpellType == SpellTypes.CombatSpell))
                 {
                     // Check if either the attacker or the defender is in a "safe zone" (Only apply if combat is PVP)
-                    if (MapController.Get(MapId).ZoneType == MapZones.Safe || MapController.Get(player.MapId).ZoneType == MapZones.Safe)
+                    if (MapController.Get(MapId).MapType.PvpEnabled || MapController.Get(player.MapId).MapType.PvpEnabled)
                     {
                         return false;
                     }
 
                     // Also consider this an issue if either player is in a different map zone type.
-                    if (MapController.Get(MapId).ZoneType != MapController.Get(player.MapId).ZoneType)
+                    if (MapController.Get(MapId).MapType != MapController.Get(player.MapId).MapType)
                     {
                         return false;
                     }

@@ -1704,8 +1704,8 @@ namespace Intersect.Server.Networking
 
                     break;
 
-                case GameObjectType.Delvers:
-                    foreach (var obj in DelversCustomBase.Lookup)
+                case GameObjectType.MapType:
+                    foreach (var obj in MapTypeBase.Lookup)
                     {
                         SendGameObject(client, obj.Value, false, false, packetList);
                     }

@@ -28,7 +28,7 @@ namespace Intersect.Editor.General
 
         Shop = 11,
 
-        Delvers = 12,
+        Custom = 12,
 
     }
 

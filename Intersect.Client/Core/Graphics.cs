@@ -561,7 +561,7 @@ namespace Intersect.Client.Core
 
             // If PlayerOverheadInfo is toggled on, always draw other player's info.
             else if (Globals.Database.PlayerOverheadInfo && isOtherPlayer &&
-                !isFriend && !isGuildMate && !isPartyMate && MapInstance.Get(Globals.Me.MapId).ZoneType == MapZones.Safe)
+                !isFriend && !isGuildMate && !isPartyMate && !MapInstance.Get(Globals.Me.MapId).MapType.PvpEnabled)
             {
                 entity.DrawName(null);
             }
@@ -574,20 +574,20 @@ namespace Intersect.Client.Core
 
             // If FriendOverheadInfo & GuildMemberOverheadInfo are on, let's prevent double draw.
             else if (Globals.Database.FriendOverheadInfo && isFriend &&
-                Globals.Database.GuildMemberOverheadInfo && isGuildMate && !isPartyMate && MapInstance.Get(Globals.Me.MapId).ZoneType == MapZones.Safe)
+                Globals.Database.GuildMemberOverheadInfo && isGuildMate && !isPartyMate && !MapInstance.Get(Globals.Me.MapId).MapType.PvpEnabled)
             {
                 entity.DrawName(null);
                 return;
             }
 
             // If FriendOverheadInfo is toggled on, always draw friend's info.
-            else if (Globals.Database.FriendOverheadInfo && isFriend && !isPartyMate && MapInstance.Get(Globals.Me.MapId).ZoneType == MapZones.Safe)
+            else if (Globals.Database.FriendOverheadInfo && isFriend && !isPartyMate && !MapInstance.Get(Globals.Me.MapId).MapType.PvpEnabled)
             {
                 entity.DrawName(null);
             }
 
             // If GuildMemberOverheadInfo is toggled on, always draw guild members info.
-            else if (Globals.Database.GuildMemberOverheadInfo && isGuildMate && !isPartyMate && MapInstance.Get(Globals.Me.MapId).ZoneType == MapZones.Safe)
+            else if (Globals.Database.GuildMemberOverheadInfo && isGuildMate && !isPartyMate && !MapInstance.Get(Globals.Me.MapId).MapType.PvpEnabled)
             {
                 entity.DrawName(null);
             }

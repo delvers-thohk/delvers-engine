@@ -66,9 +66,8 @@ namespace Intersect.Enums
         [GameObjectInfo(typeof(UserVariableBase), "user_variables")]
         UserVariable,
 
-        [GameObjectInfo(typeof(DelversCustomBase), "delvers")]
-        Delvers,
-
+        [GameObjectInfo(typeof(MapTypeBase), "map_type")]
+        MapType,
     }
 
 }

@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-
+using System.Linq;
+using Intersect.Collections;
 using Intersect.Editor.Content;
 using Intersect.Editor.Core;
 using Intersect.Editor.General;
@@ -78,22 +79,17 @@ namespace Intersect.Editor.Maps
             }
         }
 
-        [CustomCategory("general"), CustomDescription("zonedesc"), CustomDisplayName("zonetype"),
-         DefaultValue("Normal"), TypeConverter(typeof(MapZoneProperty)), Browsable(true)]
-        public string ZoneType
+        [CustomCategory("general"), CustomDescription("mapdesc"), CustomDisplayName("maptype"),
+            TypeConverter(typeof(MapTypeProperty)), Browsable(true)]
+        public string MapType
         {
-            get => Strings.MapProperties.zones[(int) mMyMap.ZoneType];
+            get => mMyMap.MapType?.Name ?? "";
             set
             {
                 Globals.MapEditorWindow.PrepUndoState();
-                for (byte i = 0; i < Enum.GetNames(typeof(MapZones)).Length; i++)
-                {
-                    if (Strings.MapProperties.zones[i] == value)
-                    {
-                        mMyMap.ZoneType = (MapZones) i;
-                    }
-                }
-
+                var t1 = MapTypeBase.Lookup.Where(x => x.Value.Name == value);
+                var t2 = t1.Select(x => x.Value);
+                mMyMap.MapType = (MapTypeBase) MapTypeBase.Lookup.Where(x => x.Value.Name == value).Select(x => x.Value).FirstOrDefault();
                 Globals.MapEditorWindow.AddUndoState();
             }
         }
@@ -693,7 +689,7 @@ namespace Intersect.Editor.Maps
 
     }
 
-    public partial class MapZoneProperty : StringConverter
+    public partial class MapTypeProperty : StringConverter
     {
 
         public override bool GetStandardValuesSupported(ITypeDescriptorContext context)
@@ -712,11 +708,7 @@ namespace Intersect.Editor.Maps
         public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
         {
             var values = new List<string>();
-            for (byte i = 0; i < Enum.GetNames(typeof(MapZones)).Length; i++)
-            {
-                values.Add(Strings.MapProperties.zones[i]);
-            }
-
+            values.AddRange(MapTypeBase.Lookup.Select(x => ((MapTypeBase) x.Value).Name).ToArray());
             return new StandardValuesCollection(values);
         }
 

@@ -16,23 +16,33 @@ using Newtonsoft.Json;
 namespace Intersect.GameObjects
 {
 
-    public partial class DelversCustomBase : DatabaseObject<DelversCustomBase>
+    public partial class MapTypeBase : DatabaseObject<MapTypeBase>
     {
+        [Column("LanternVisibilityLevel")]
+        public VisibilityLevel LanternVisibilityLevel { get; set; }
 
-        public DelversCustomBase()
+        [Column("NametagVisibilityLevel")]
+        public VisibilityLevel NametagVisibilityLevel { get; set; }
+
+        [Column("PvpEnabled")]
+        public bool PvpEnabled { get; set; }
+
+
+        public MapTypeBase()
         {
             Initialize();
         }
 
         [JsonConstructor]
-        public DelversCustomBase(Guid id) : base(id)
+        public MapTypeBase(Guid id) : base(id)
         {
             Initialize();
         }    
 
         private void Initialize()
         {
-            Name = "New Custom";
+            Name = "New Map Type Base";
+
         }
     }
 

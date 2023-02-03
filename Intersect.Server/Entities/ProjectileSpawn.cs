@@ -84,7 +84,7 @@ namespace Intersect.Server.Entities
                     {
                         if(targetPlayer != null)
                         {
-                            if(targetPlayer.Map.ZoneType == Enums.MapZones.Safe ||
+                            if(!targetPlayer.Map.MapType.PvpEnabled ||
                                 Parent.Owner is Player plyr && plyr.InParty(targetPlayer))
                             {
                                 return false;
@@ -113,7 +113,7 @@ namespace Intersect.Server.Entities
 
                         if (!Parent.Base.PierceTarget)
                         {
-                            if (targetPlayer.Map.ZoneType == Enums.MapZones.Safe ||
+                            if (!targetPlayer.Map.MapType.PvpEnabled ||
                                 Parent.Owner is Player plyr && plyr.InParty(targetPlayer))
                             {
                                 return false;
