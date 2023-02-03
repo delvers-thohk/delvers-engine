@@ -1703,6 +1703,14 @@ namespace Intersect.Server.Networking
                     }
 
                     break;
+
+                case GameObjectType.MapType:
+                    foreach (var obj in MapTypeBase.Lookup)
+                    {
+                        SendGameObject(client, obj.Value, false, false, packetList);
+                    }
+
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }

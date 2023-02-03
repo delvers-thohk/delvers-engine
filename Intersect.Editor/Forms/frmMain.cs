@@ -79,6 +79,8 @@ namespace Intersect.Editor.Forms
 
         private FrmTime mTimeEditor;
 
+        private FrmCustomEditor mCustomEditor;
+
         //General Editting Variables
         bool mTMouseDown;
 
@@ -1301,6 +1303,11 @@ namespace Intersect.Editor.Forms
             PacketSender.SendOpenEditor(GameObjectType.Time);
         }
 
+        private void customEditorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PacketSender.SendOpenEditor(GameObjectType.MapType);
+        }
+
         private void layersToolStripMenuItem_DropDownOpened(object sender, EventArgs e)
         {
             foreach (var itm in ((ToolStripMenuItem)sender).DropDownItems)
@@ -1716,6 +1723,16 @@ namespace Intersect.Editor.Forms
                             mTimeEditor = new FrmTime();
                             mTimeEditor.InitEditor(TimeBase.GetTimeBase());
                             mTimeEditor.Show();
+                        }
+
+                        break;
+
+                    case GameObjectType.MapType:
+                        if (mCustomEditor == null || mCustomEditor.Visible == false)
+                        {
+                            mCustomEditor = new FrmCustomEditor();
+                            mCustomEditor.InitEditor();
+                            mCustomEditor.Show();
                         }
 
                         break;

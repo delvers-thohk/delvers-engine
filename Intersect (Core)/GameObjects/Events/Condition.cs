@@ -42,7 +42,7 @@ namespace Intersect.GameObjects.Events
 
         InGuildWithRank,
 
-        MapZoneTypeIs,
+        MapTypeIs,
 
         CheckEquipment,
 
@@ -287,17 +287,17 @@ namespace Intersect.GameObjects.Events
     /// <summary>
     /// Defines the condition class used when checking whether a player is on a specific map zone type.
     /// </summary>
-    public partial class MapZoneTypeIs : Condition
+    public partial class MapTypeIs : Condition
     {
         /// <summary>
         /// Defines the type of condition.
         /// </summary>
-        public override ConditionTypes Type { get; } = ConditionTypes.MapZoneTypeIs;
+        public override ConditionTypes Type { get; } = ConditionTypes.MapTypeIs;
 
         /// <summary>
         /// Defines the map Zone Type to compare to.
         /// </summary>
-        public MapZones ZoneType { get; set; }
+        public MapTypeBase MapType { get; set; }
     }
 
     public partial class VariableCompaison

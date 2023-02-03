@@ -353,9 +353,9 @@ namespace Intersect.Editor.Localization
             }
         }
 
-        public static string GetEventConditionalDesc(MapZoneTypeIs condition)
+        public static string GetEventConditionalDesc(MapTypeIs condition)
         {
-            return EventConditionDesc.MapZoneTypeIs.ToString(MapProperties.zones[(int)condition.ZoneType]);
+            return EventConditionDesc.MapTypeIs.ToString(MapTypeBase.Get(condition.MapType.Id));
         }
 
         public static string GetEventConditionalDesc(CheckEquippedSlot condition)
@@ -2383,7 +2383,7 @@ Tick timer saved in server config.json.";
                 {17, @"Item Equipped is..."},
                 {18, @"Has X free Inventory slots..." },
                 {19, @"In Guild With At Least Rank..." },
-                {20, @"Map Zone Type is..." },
+                {20, @"Map Type is..." },
                 {21, @"Check Equipped Slot..." },
             };
 
@@ -2538,10 +2538,10 @@ Tick timer saved in server config.json.";
             public static LocalizedString rank = @"Rank:";
 
             [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-            public static LocalizedString MapZoneTypeIs = @"Map Zone Type is:";
+            public static LocalizedString MapTypeIs = @"Map Type is:";
 
             [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-            public static LocalizedString MapZoneTypeLabel = @"Zone Type:";
+            public static LocalizedString MapTypeLabel = @"Map Type:";
 
             [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
             public static LocalizedString CheckBank = @"Check Bank?";
@@ -2639,7 +2639,7 @@ Tick timer saved in server config.json.";
             public static LocalizedString HasFreeInventorySlots = @"Player has {00} free inventory slot(s)";
 
             [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-            public static LocalizedString MapZoneTypeIs = @"Map Zone Type is {00}";
+            public static LocalizedString MapTypeIs = @"Map Type is {00}";
 
             public static Dictionary<int, LocalizedString> selfswitches = new Dictionary<int, LocalizedString>
             {
@@ -3784,6 +3784,21 @@ Tick timer saved in server config.json.";
 
         }
 
+        public partial struct CustomEditor
+        {
+
+            public static LocalizedString title = @"Custom Editor";
+
+            public static LocalizedString variables = @"Variables";
+
+            public static LocalizedString searchplaceholder = @"Search...";
+
+            public static LocalizedString save = @"Save";
+
+            public static LocalizedString cancel = @"Cancel";
+
+        }
+
         public partial struct LightEditor
         {
 
@@ -4177,7 +4192,7 @@ Tick timer saved in server config.json.";
                 {"playerlightsize", @"Player Light Size"},
                 {"rhue", @"RHue"},
                 {"sound", @"Sound"},
-                {"zonetype", @"Zone Type"},
+                {"maptype", @"Map Type"},
                 {"weather", @"Weather"},
                 {"weatherxspeed", @"Weather X Speed"},
                 {"weatheryspeed", @"Weather Y Speed"},
@@ -4215,7 +4230,7 @@ Tick timer saved in server config.json.";
                 {"playerlightsizedesc", @"How large is the light around the player? (In pixels 0-1000)"},
                 {"rhuedesc", @"The amount of red in the overlay. (Range: 0 to 255)"},
                 {"sounddesc", @"Looping sound effect for this map."},
-                {"zonedesc", @"The type of map this is."},
+                {"mapdesc", @"The type of map this is."},
                 {"weatherdesc", @"The animation for each weather particle."},
                 {
                     "weatherxspeeddesc",
@@ -4227,14 +4242,6 @@ Tick timer saved in server config.json.";
             };
 
             public static LocalizedString title = @"Map Properties";
-
-            public static Dictionary<int, LocalizedString> zones = new Dictionary<int, LocalizedString>
-            {
-                {0, @"Normal"},
-                {1, @"Safe"},
-                {2, @"Arena"},
-            };
-
         }
 
         public partial struct NpcEditor

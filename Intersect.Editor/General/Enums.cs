@@ -1,4 +1,4 @@
-﻿namespace Intersect.Editor.General
+namespace Intersect.Editor.General
 {
 
     public enum EditorTypes
@@ -27,6 +27,8 @@
         SwitchVariable = 10,
 
         Shop = 11,
+
+        Custom = 12,
 
     }
 

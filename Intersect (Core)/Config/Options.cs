@@ -212,11 +212,6 @@ namespace Intersect
         [JsonProperty("ServerPort", Order = -4)]
         public ushort _serverPort { get; set; } = DEFAULT_SERVER_PORT;
 
-        /// <summary>
-        /// Passability configuration by map zone
-        /// </summary>
-        public Passability Passability { get; } = new Passability();
-
         public bool SmtpValid { get; set; }
 
         public static string OptionsData => optionsCompressed;

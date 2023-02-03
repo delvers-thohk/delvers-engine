@@ -2054,9 +2054,9 @@ namespace Intersect.Client.Entities
                                         break;
 
                                     case Player player:
-                                        //Return the entity key as this should block the player.  Only exception is if the MapZone this entity is on is passable.
+                                        //Return the entity key as this should block the player.  Only exception is pvp is disabled.
                                         var entityMap = Maps.MapInstance.Get(player.MapId);
-                                        if (Options.Instance.Passability.Passable[(int)entityMap.ZoneType])
+                                        if (!entityMap.MapType.PvpEnabled)
                                         {
                                             continue;
                                         }

@@ -680,6 +680,21 @@ namespace Intersect.Editor.Networking
                     }
 
                     break;
+
+                case GameObjectType.MapType:
+                    if (deleted)
+                    {
+                        var pvar = MapTypeBase.Get(id);
+                        pvar.Delete();
+                    }
+                    else
+                    {
+                        var pvar = new MapTypeBase(id);
+                        pvar.Load(json);
+                        MapTypeBase.Lookup.Set(id, pvar);
+                    }
+
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }

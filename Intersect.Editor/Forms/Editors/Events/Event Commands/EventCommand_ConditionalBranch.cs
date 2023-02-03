@@ -244,15 +244,11 @@ namespace Intersect.Editor.Forms.Editors.Events.Event_Commands
                 cmbRank.Items.Add(rank.Title);
             }
 
-            // Map Zone Type
-            grpMapZoneType.Text = Strings.EventConditional.MapZoneTypeIs;
-            lblMapZoneType.Text = Strings.EventConditional.MapZoneTypeLabel;
-            cmbMapZoneType.Items.Clear();
-            for (var i = 0; i < Strings.MapProperties.zones.Count; i++)
-            {
-                cmbMapZoneType.Items.Add(Strings.MapProperties.zones[i]);
-            }
-
+            // Map Type
+            grpMapType.Text = Strings.EventConditional.MapTypeIs;
+            lblMapType.Text = Strings.EventConditional.MapTypeLabel;
+            cmbMapType.Items.Clear();
+            cmbMapType.Items.AddRange(MapTypeBase.Lookup.Select(x => ((MapTypeBase)x.Value).Name).ToArray());
             chkBank.Text = Strings.EventConditional.CheckBank;
 
             //Check Equipped Slot
@@ -392,11 +388,11 @@ namespace Intersect.Editor.Forms.Editors.Events.Event_Commands
                     cmbRank.SelectedIndex = 0;
 
                     break;
-                case ConditionTypes.MapZoneTypeIs:
-                    Condition = new MapZoneTypeIs();
-                    if (cmbMapZoneType.Items.Count > 0)
+                case ConditionTypes.MapTypeIs:
+                    Condition = new MapTypeIs();
+                    if (cmbMapType.Items.Count > 0)
                     {
-                        cmbMapZoneType.SelectedIndex = 0;
+                        cmbMapType.SelectedIndex = 0;
                     }
 
                     break;
@@ -430,7 +426,7 @@ namespace Intersect.Editor.Forms.Editors.Events.Event_Commands
             grpMapIs.Hide();
             grpEquippedItem.Hide();
             grpInGuild.Hide();
-            grpMapZoneType.Hide();
+            grpMapType.Hide();
             grpNpc.Hide();
             grpCheckEquippedSlot.Hide();
             switch (type)
@@ -561,8 +557,8 @@ namespace Intersect.Editor.Forms.Editors.Events.Event_Commands
                     grpInGuild.Show();
 
                     break;
-                case ConditionTypes.MapZoneTypeIs:
-                    grpMapZoneType.Show();
+                case ConditionTypes.MapTypeIs:
+                    grpMapType.Show();
 
                     break;
                 case ConditionTypes.CheckEquipment:
@@ -1374,11 +1370,11 @@ namespace Intersect.Editor.Forms.Editors.Events.Event_Commands
             cmbRank.SelectedIndex = Math.Max(0, Math.Min(Options.Instance.Guild.Ranks.Length - 1, condition.Rank));
         }
 
-        private void SetupFormValues(MapZoneTypeIs condition)
+        private void SetupFormValues(MapTypeIs condition)
         {
-            if (cmbMapZoneType.Items.Count > 0)
+            if (cmbMapType.Items.Count > 0)
             {
-                cmbMapZoneType.SelectedIndex = (int)condition.ZoneType;
+                cmbMapType.SelectedValue = condition.MapType;
             }
         }
 
@@ -1572,11 +1568,11 @@ namespace Intersect.Editor.Forms.Editors.Events.Event_Commands
             condition.Rank = Math.Max(cmbRank.SelectedIndex, 0);
         }
 
-        private void SaveFormValues(MapZoneTypeIs condition)
+        private void SaveFormValues(MapTypeIs condition)
         {
-            if (cmbMapZoneType.Items.Count > 0)
+            if (cmbMapType.Items.Count > 0)
             {
-                condition.ZoneType = (MapZones)cmbMapZoneType.SelectedIndex;
+                condition.MapType = (MapTypeBase) MapTypeBase.Lookup.Where(x => ((MapTypeBase) x.Value).Name == cmbMapType.SelectedValue.ToString()).Select(x => x.Value);
             }
         }
 

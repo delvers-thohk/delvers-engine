@@ -16,6 +16,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <FileAlignment>512</FileAlignment>
     <DebugType>embedded</DebugType>
+    <Version>0.7.1.98</Version>
   </PropertyGroup>
 
   <ItemGroup>

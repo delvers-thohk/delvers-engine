@@ -1,4 +1,4 @@
-﻿using System.Windows.Forms;
+using System.Windows.Forms;
 
 using Intersect.Editor.Localization;
 using Intersect.Editor.Maps;
