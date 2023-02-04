@@ -406,6 +406,12 @@ namespace Intersect.Client.Localization
 
             public static LocalizedString warpme2 = @"Warp Me To";
 
+            public static LocalizedString stats = @"View Stats";
+
+            public static LocalizedString equipment = @"Equipment";
+
+            public static LocalizedString inventory = @"Inventory";
+
         }
 
         public partial struct Bags

@@ -2003,6 +2003,16 @@ namespace Intersect.Server.Networking
             }
         }
 
+        //PlayerStatsPacket
+        public static void SendPlayerStatsPacket(Player player, Player targetPlayer)
+        {
+            //player.Level;
+            //player.Name;
+            //player.ClassName;
+            //player.Stat.Select(x => x.Value); --CKC
+            player.SendPacket(new PlayerStatsPacket());
+        }
+
         //BagUpdatePacket
         public static void SendBagUpdate(Player player, int slot, Item item)
         {

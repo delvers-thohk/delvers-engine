@@ -529,7 +529,7 @@ namespace Intersect.Server.Entities
                             if (this is Player)
                             {
                                 //Check if this target player is passable....
-                                if (targetMap.MapType.PvpEnabled)
+                                if (targetMap.MapType.PvpType > 0)
                                 {
                                     return (int)EntityTypes.Player;
                                 }
@@ -1362,12 +1362,12 @@ namespace Intersect.Server.Entities
                     targetPlayer.StartCommonEventsWithTrigger(CommonEventTrigger.PlayerInteract, "", this.Name);
                 }
 
-                if (!MapController.Get(MapId).MapType.PvpEnabled)
+                if (!(MapController.Get(MapId).MapType.PvpType > 0))
                 {
                     return;
                 }
 
-                if (!MapController.Get(target.MapId).MapType.PvpEnabled)
+                if (!(MapController.Get(target.MapId).MapType.PvpType > 0))
                 {
                     return;
                 }
@@ -1485,12 +1485,12 @@ namespace Intersect.Server.Entities
                     }
 
                     // Check if either the attacker or the defender is in a "safe zone" (Only apply if combat is PVP)
-                    if (!MapController.Get(MapId).MapType.PvpEnabled)
+                    if (!(MapController.Get(MapId).MapType.PvpType > 0))
                     {
                         return;
                     }
 
-                    if (!MapController.Get(target.MapId).MapType.PvpEnabled)
+                    if (!(MapController.Get(target.MapId).MapType.PvpType > 0))
                     {
                         return;
                     }
@@ -1679,12 +1679,12 @@ namespace Intersect.Server.Entities
                 //Player interaction common events
                 targetPlayer.StartCommonEventsWithTrigger(CommonEventTrigger.PlayerInteract, "", this.Name);
 
-                if (!MapController.Get(MapId).MapType.PvpEnabled)
+                if (!(MapController.Get(MapId).MapType.PvpType > 0))
                 {
                     return;
                 }
 
-                if (!MapController.Get(target.MapId).MapType.PvpEnabled)
+                if (!(MapController.Get(target.MapId).MapType.PvpType > 0))
                 {
                     return;
                 }

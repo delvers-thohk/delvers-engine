@@ -13,6 +13,7 @@ using Intersect.Client.Networking;
 using Intersect.Enums;
 using Intersect.GameObjects;
 using Intersect.Network.Packets.Server;
+using Intersect.Client.Entities;
 
 namespace Intersect.Client.Interface.Game.Character
 {
@@ -108,6 +109,7 @@ namespace Intersect.Client.Interface.Game.Character
         Label mManaSteal;
 
         int ManaStealAmount = 0;
+        Player Player = Globals.Me;
 
         //Init
         public CharacterWindow(Canvas gameCanvas)
@@ -220,18 +222,18 @@ namespace Intersect.Client.Interface.Game.Character
                 return;
             }
 
-            mCharacterName.Text = Globals.Me.Name;
+            mCharacterName.Text = Player.Name;
             mCharacterLevelAndClass.Text = Strings.Character.levelandclass.ToString(
-                Globals.Me.Level, ClassBase.GetName(Globals.Me.Class)
+                Player.Level, ClassBase.GetName(Player.Class)
             );
 
             //Load Portrait
-            //UNCOMMENT THIS LINE IF YOU'D RATHER HAVE A FACE HERE GameTexture faceTex = Globals.ContentManager.GetTexture(Framework.Content.TextureType.Face, Globals.Me.Face);
+            //UNCOMMENT THIS LINE IF YOU'D RATHER HAVE A FACE HERE GameTexture faceTex = Globals.ContentManager.GetTexture(Framework.Content.TextureType.Face, Player.Face);
             var entityTex = Globals.ContentManager.GetTexture(
-                Framework.Content.TextureType.Entity, Globals.Me.Sprite
+                Framework.Content.TextureType.Entity, Player.Sprite
             );
 
-            /* UNCOMMENT THIS BLOCK IF YOU"D RATHER HAVE A FACE HERE if (Globals.Me.Face != "" && Globals.Me.Face != _currentSprite && faceTex != null)
+            /* UNCOMMENT THIS BLOCK IF YOU"D RATHER HAVE A FACE HERE if (Player.Face != "" && Player.Face != _currentSprite && faceTex != null)
              {
                  _characterPortrait.Texture = faceTex;
                  _characterPortrait.SetTextureRect(0, 0, faceTex.GetWidth(), faceTex.GetHeight());
@@ -244,25 +246,25 @@ namespace Intersect.Client.Interface.Game.Character
                  }
              }
              else */
-            if (!string.IsNullOrWhiteSpace(Globals.Me.Sprite) && Globals.Me.Sprite != mCurrentSprite && entityTex != null)
+            if (!string.IsNullOrWhiteSpace(Player.Sprite) && Player.Sprite != mCurrentSprite && entityTex != null)
             {
                 for (var z = 0; z < Options.PaperdollOrder[1].Count; z++)
                 {
                     var paperdoll = "";
                     if (Options.EquipmentSlots.IndexOf(Options.PaperdollOrder[1][z]) > -1)
                     {
-                        var equipment = Globals.Me.MyEquipment;
+                        var equipment = Player.MyEquipment;
                         if (equipment[Options.EquipmentSlots.IndexOf(Options.PaperdollOrder[1][z])] > -1 &&
                             equipment[Options.EquipmentSlots.IndexOf(Options.PaperdollOrder[1][z])] <
                             Options.MaxInvItems)
                         {
-                            var itemNum = Globals.Me
+                            var itemNum = Player
                                 .Inventory[equipment[Options.EquipmentSlots.IndexOf(Options.PaperdollOrder[1][z])]]
                                 .ItemId;
 
                             if (ItemBase.TryGet(itemNum, out var itemDescriptor))
                             {
-                                paperdoll = Globals.Me.Gender == 0
+                                paperdoll = Player.Gender == 0
                                     ? itemDescriptor.MalePaperdoll : itemDescriptor.FemalePaperdoll;
                                 PaperdollPanels[z].RenderColor = itemDescriptor.Color;
                             }
@@ -274,7 +276,7 @@ namespace Intersect.Client.Interface.Game.Character
                         PaperdollPanels[z].Texture = entityTex;
                         PaperdollPanels[z].SetTextureRect(0, 0, entityTex.GetWidth() / Options.Instance.Sprites.NormalFrames, entityTex.GetHeight() / Options.Instance.Sprites.Directions);
                         PaperdollPanels[z].SizeToContents();
-                        PaperdollPanels[z].RenderColor = Globals.Me.Color;
+                        PaperdollPanels[z].RenderColor = Player.Color;
                         Align.Center(PaperdollPanels[z]);
                     }
 
@@ -317,7 +319,7 @@ namespace Intersect.Client.Interface.Game.Character
                     }
                 }
             }
-            else if (Globals.Me.Sprite != mCurrentSprite && Globals.Me.Face != mCurrentSprite)
+            else if (Player.Sprite != mCurrentSprite && Player.Face != mCurrentSprite)
             {
                 mCharacterPortrait.IsHidden = true;
                 for (var i = 0; i < Options.EquipmentSlots.Count; i++)
@@ -327,56 +329,56 @@ namespace Intersect.Client.Interface.Game.Character
             }
 
             mAttackLabel.SetText(
-                Strings.Character.stat0.ToString(Strings.Combat.stat0, Globals.Me.Stat[(int) Stats.Attack])
+                Strings.Character.stat0.ToString(Strings.Combat.stat0, Player.Stat[(int) Stats.Attack])
             );
 
             mDefenseLabel.SetText(
-                Strings.Character.stat2.ToString(Strings.Combat.stat2, Globals.Me.Stat[(int) Stats.Defense])
+                Strings.Character.stat2.ToString(Strings.Combat.stat2, Player.Stat[(int) Stats.Defense])
             );
 
             mSpeedLabel.SetText(
-                Strings.Character.stat4.ToString(Strings.Combat.stat4, Globals.Me.Stat[(int) Stats.Speed])
+                Strings.Character.stat4.ToString(Strings.Combat.stat4, Player.Stat[(int) Stats.Speed])
             );
 
             mAbilityPwrLabel.SetText(
-                Strings.Character.stat1.ToString(Strings.Combat.stat1, Globals.Me.Stat[(int) Stats.AbilityPower])
+                Strings.Character.stat1.ToString(Strings.Combat.stat1, Player.Stat[(int) Stats.AbilityPower])
             );
 
             mMagicRstLabel.SetText(
-                Strings.Character.stat3.ToString(Strings.Combat.stat3, Globals.Me.Stat[(int) Stats.MagicResist])
+                Strings.Character.stat3.ToString(Strings.Combat.stat3, Player.Stat[(int) Stats.MagicResist])
             );
 
-            mPointsLabel.SetText(Strings.Character.points.ToString(Globals.Me.StatPoints));
-            mAddAbilityPwrBtn.IsHidden = Globals.Me.StatPoints == 0 ||
-                                         Globals.Me.Stat[(int) Stats.AbilityPower] == Options.MaxStatValue;
+            mPointsLabel.SetText(Strings.Character.points.ToString(Player.StatPoints));
+            mAddAbilityPwrBtn.IsHidden = Player.StatPoints == 0 ||
+                                         Player.Stat[(int) Stats.AbilityPower] == Options.MaxStatValue;
 
             mAddAttackBtn.IsHidden =
-                Globals.Me.StatPoints == 0 || Globals.Me.Stat[(int) Stats.Attack] == Options.MaxStatValue;
+                Player.StatPoints == 0 || Player.Stat[(int) Stats.Attack] == Options.MaxStatValue;
 
-            mAddDefenseBtn.IsHidden = Globals.Me.StatPoints == 0 ||
-                                      Globals.Me.Stat[(int) Stats.Defense] == Options.MaxStatValue;
+            mAddDefenseBtn.IsHidden = Player.StatPoints == 0 ||
+                                      Player.Stat[(int) Stats.Defense] == Options.MaxStatValue;
 
-            mAddMagicResistBtn.IsHidden = Globals.Me.StatPoints == 0 ||
-                                          Globals.Me.Stat[(int) Stats.MagicResist] == Options.MaxStatValue;
+            mAddMagicResistBtn.IsHidden = Player.StatPoints == 0 ||
+                                          Player.Stat[(int) Stats.MagicResist] == Options.MaxStatValue;
 
             mAddSpeedBtn.IsHidden =
-                Globals.Me.StatPoints == 0 || Globals.Me.Stat[(int) Stats.Speed] == Options.MaxStatValue;
+                Player.StatPoints == 0 || Player.Stat[(int) Stats.Speed] == Options.MaxStatValue;
 
             UpdateExtraBuffs();
 
             for (var i = 0; i < Options.EquipmentSlots.Count; i++)
             {
-                if (Globals.Me.MyEquipment[i] > -1 && Globals.Me.MyEquipment[i] < Options.MaxInvItems)
+                if (Player.MyEquipment[i] > -1 && Player.MyEquipment[i] < Options.MaxInvItems)
                 {
-                    if (Globals.Me.Inventory[Globals.Me.MyEquipment[i]].ItemId != Guid.Empty)
+                    if (Player.Inventory[Player.MyEquipment[i]].ItemId != Guid.Empty)
                     {
                         Items[i]
                             .Update(
-                                Globals.Me.Inventory[Globals.Me.MyEquipment[i]].ItemId,
-                                Globals.Me.Inventory[Globals.Me.MyEquipment[i]].ItemProperties
+                                Player.Inventory[Player.MyEquipment[i]].ItemId,
+                                Player.Inventory[Player.MyEquipment[i]].ItemProperties
                             );
 
-                        UpdateExtraBuffs(Globals.Me.Inventory[Globals.Me.MyEquipment[i]].ItemId);
+                        UpdateExtraBuffs(Player.Inventory[Player.MyEquipment[i]].ItemId);
                     }
                     else
                     {
@@ -395,7 +397,7 @@ namespace Intersect.Client.Interface.Game.Character
         /// </summary>
         public void UpdateExtraBuffs()
         {
-            mPlayer = ClassBase.Get(Globals.Me?.Class ?? Guid.Empty);
+            mPlayer = ClassBase.Get(Player?.Class ?? Guid.Empty);
 
             //Getting HP and Mana Regen
             if (mPlayer != null)
@@ -420,7 +422,7 @@ namespace Intersect.Client.Interface.Game.Character
             mCooldownReduction.SetText(Strings.Character.CooldownReduction.ToString(0));
             mManaSteal.SetText(Strings.Character.Manasteal.ToString(0));
 
-            mAttackSpeed.SetText(Strings.Character.AttackSpeed.ToString(Globals.Me.CalculateAttackTime() / 1000f));
+            mAttackSpeed.SetText(Strings.Character.AttackSpeed.ToString(Player.CalculateAttackTime() / 1000f));
         }
 
         /// <summary>
@@ -520,6 +522,14 @@ namespace Intersect.Client.Interface.Game.Character
             mCharacterWindow.IsHidden = true;
         }
 
+        /// <summary>
+        /// Sets player
+        /// </summary>
+        /// <param name="player"></param>
+        public void SetPlayer(Player player = null)
+        {
+            Player = player;
+        }
     }
 
 }

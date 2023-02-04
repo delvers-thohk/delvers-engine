@@ -386,6 +386,32 @@ namespace Intersect.Server.Admin.Actions
             }
         }
 
+        //ViewStatsAction
+        public static void ProcessAction(Player player, ViewStatsAction action)
+        {
+            if (!player.Power.IsAdmin) // Should be admin in order to view player stats.
+            {
+                PacketSender.SendChatMsg(player, Strings.Account.NotAllowed, ChatMessageType.Admin, Color.Red);
+
+                return;
+            }
+
+            var targetPlayer = Player.Find(action.Name);
+
+            if (targetPlayer == null) // Does the target exists?
+            {
+                PacketSender.SendChatMsg(
+                    player, Strings.Player.PlayerNotFound.ToString(action.Name), ChatMessageType.Admin, Color.Red
+                );
+
+                return;
+            }
+
+            {
+                PacketSender.SendPlayerStatsPacket(player, targetPlayer);
+            }
+        }
+
         //WarpMeToAction
         public static void ProcessAction(Player player, WarpMeToAction action)
         {

@@ -2056,7 +2056,7 @@ namespace Intersect.Client.Entities
                                     case Player player:
                                         //Return the entity key as this should block the player.  Only exception is pvp is disabled.
                                         var entityMap = Maps.MapInstance.Get(player.MapId);
-                                        if (!entityMap.MapType.PvpEnabled)
+                                        if (!(entityMap.MapType.PvpType > 0))
                                         {
                                             continue;
                                         }
