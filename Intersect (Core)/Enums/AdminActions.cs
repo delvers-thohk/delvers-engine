@@ -34,6 +34,8 @@ namespace Intersect.Enums
 
         ReturnToOverworld,
 
+        ViewStats
+
     }
 
 }

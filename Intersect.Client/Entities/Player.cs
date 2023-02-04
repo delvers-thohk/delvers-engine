@@ -1279,7 +1279,7 @@ namespace Intersect.Client.Entities
                 return;
             }
             var currentMap = Globals.Me.MapInstance as MapInstance;
-            var canTargetPlayers = currentMap.MapType.PvpEnabled;
+            var canTargetPlayers = currentMap.MapType.PvpType > 0;
 
             // Build a list of Entities to select from with positions if our list is either old, we've moved or changed maps somehow.
             if (

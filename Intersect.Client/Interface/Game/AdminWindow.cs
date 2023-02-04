@@ -78,6 +78,10 @@ namespace Intersect.Client.Interface.Game
         
         private Button ButtonOverworldReturn;
 
+        private Button ButtonViewStats;
+        
+        private Button ButtonViewInventory;
+
         public ImagePanel PanelSprite;
 
         public ImagePanel SpritePanel;
@@ -86,7 +90,7 @@ namespace Intersect.Client.Interface.Game
         public AdminWindow(Canvas gameCanvas)
         {
             mAdminWindow = new WindowControl(gameCanvas, Strings.Admin.title, false, nameof(AdminWindow));
-            mAdminWindow.SetSize(200, 540);
+            mAdminWindow.SetSize(200, 560);
             mAdminWindow.SetPosition(
                 Graphics.Renderer.GetScreenWidth() / 2 - mAdminWindow.Width / 2,
                 Graphics.Renderer.GetScreenHeight() / 2 - mAdminWindow.Height / 2
@@ -177,12 +181,32 @@ namespace Intersect.Client.Interface.Game
             ButtonUnmute.SetBounds(144, 84, 50, 18);
             ButtonUnmute.Clicked += _unmuteButton_Clicked;
 
+            ButtonViewStats = new Button(mAdminWindow, nameof(ButtonViewStats))
+            {
+                Text = Strings.Admin.stats
+            };
+
+            ButtonViewStats.SetBounds(6, 104, 80, 18);
+            ButtonViewStats.Clicked += _viewStatsButton_Clicked;
+
+            ButtonViewInventory = new Button(mAdminWindow, nameof(ButtonViewInventory))
+            {
+                Text = Strings.Admin.inventory,
+                FontName = "sourcesanspro",
+                FontSize = 8
+            };
+
+            ButtonViewInventory.SetBounds(144, 104, 50, 18);
+            ButtonViewInventory.Clicked += _viewInventoryButton_Clicked;
+
+            mAdminWindow.LoadJsonUi(UI.InGame, Graphics.Renderer.GetResolutionString(), true);
+
             LabelSprite = new Label(mAdminWindow, nameof(LabelSprite));
-            LabelSprite.SetPosition(6, 112);
+            LabelSprite.SetPosition(6, 132);
             LabelSprite.Text = Strings.Admin.sprite;
 
             DropdownSprite = new ComboBox(mAdminWindow, nameof(DropdownSprite));
-            DropdownSprite.SetBounds(6, 128, 80, 18);
+            DropdownSprite.SetBounds(6, 148, 80, 18);
             DropdownSprite.AddItem(Strings.Admin.none);
             var sprites = Globals.ContentManager.GetTextureNames(Framework.Content.TextureType.Entity);
             Array.Sort(sprites, new AlphanumComparatorFast());
@@ -198,20 +222,20 @@ namespace Intersect.Client.Interface.Game
                 Text = Strings.Admin.setsprite
             };
 
-            ButtonSetSprite.SetBounds(6, 148, 80, 18);
+            ButtonSetSprite.SetBounds(6, 168, 80, 18);
             ButtonSetSprite.Clicked += _setSpriteButton_Clicked;
 
             PanelSprite = new ImagePanel(mAdminWindow, nameof(PanelSprite));
             PanelSprite.SetSize(50, 50);
-            PanelSprite.SetPosition(115, 114);
+            PanelSprite.SetPosition(115, 134);
             SpritePanel = new ImagePanel(PanelSprite);
 
             LabelFace = new Label(mAdminWindow, nameof(LabelFace));
-            LabelFace.SetPosition(6, 172);
+            LabelFace.SetPosition(6, 192);
             LabelFace.Text = Strings.Admin.face;
 
             DropdownFace = new ComboBox(mAdminWindow, nameof(DropdownFace));
-            DropdownFace.SetBounds(6, 188, 80, 18);
+            DropdownFace.SetBounds(6, 208, 80, 18);
             DropdownFace.AddItem(Strings.Admin.none);
             var faces = Globals.ContentManager.GetTextureNames(Framework.Content.TextureType.Face);
             Array.Sort(faces, new AlphanumComparatorFast());
@@ -227,19 +251,19 @@ namespace Intersect.Client.Interface.Game
                 Text = Strings.Admin.setface
             };
 
-            ButtonSetFace.SetBounds(6, 208, 80, 18);
+            ButtonSetFace.SetBounds(6, 228, 80, 18);
             ButtonSetFace.Clicked += _setFaceButton_Clicked;
 
             PanelFace = new ImagePanel(mAdminWindow, nameof(PanelFace));
             PanelFace.SetSize(50, 50);
-            PanelFace.SetPosition(115, 174);
+            PanelFace.SetPosition(115, 194);
 
             LabelAccess = new Label(mAdminWindow, nameof(LabelAccess));
-            LabelAccess.SetPosition(6, 232);
+            LabelAccess.SetPosition(6, 252);
             LabelAccess.Text = Strings.Admin.access;
 
             DropdownAccess = new ComboBox(mAdminWindow, nameof(DropdownAccess));
-            DropdownAccess.SetBounds(6, 248, 80, 18);
+            DropdownAccess.SetBounds(6, 268, 80, 18);
             DropdownAccess.AddItem(Strings.Admin.access0).UserData = "None";
             DropdownAccess.AddItem(Strings.Admin.access1).UserData = "Moderator";
             DropdownAccess.AddItem(Strings.Admin.access2).UserData = "Admin";
@@ -249,7 +273,7 @@ namespace Intersect.Client.Interface.Game
                 Text = Strings.Admin.setpower
             };
 
-            ButtonSetPower.SetBounds(6, 268, 80, 18);
+            ButtonSetPower.SetBounds(6, 288, 80, 18);
             ButtonSetPower.Clicked += _setPowerButton_Clicked;
 
             CreateMapList();
@@ -258,11 +282,11 @@ namespace Intersect.Client.Interface.Game
                 Text = Strings.Admin.maplist
             };
 
-            LabelMapList.SetPosition(4f, 294);
+            LabelMapList.SetPosition(4f, 314);
 
             CheckboxChronological = new CheckBox(mAdminWindow, nameof(CheckboxChronological));
             CheckboxChronological.SetToolTipText(Strings.Admin.chronologicaltip);
-            CheckboxChronological.SetPosition(mAdminWindow.Width - 24, 294);
+            CheckboxChronological.SetPosition(mAdminWindow.Width - 24, 314);
             CheckboxChronological.CheckChanged += _chkChronological_CheckChanged;
 
             LabelChronological = new Label(mAdminWindow, nameof(LabelChronological))
@@ -270,8 +294,8 @@ namespace Intersect.Client.Interface.Game
                 Text = Strings.Admin.chronological
             };
 
-            LabelChronological.SetPosition(CheckboxChronological.X - 30, 294);
-
+            LabelChronological.SetPosition(CheckboxChronological.X - 30, 314);
+            
             mAdminWindow.LoadJsonUi(UI.InGame, Graphics.Renderer.GetResolutionString(), true);
 
             UpdateMapList();
@@ -470,6 +494,20 @@ namespace Intersect.Client.Interface.Game
                     Strings.Admin.unbanprompt.ToString(TextboxName.Text), true, InputBox.InputType.YesNo, UnbanUser,
                     null, -1
                 );
+            }
+        }
+        void _viewStatsButton_Clicked(Base sender, ClickedEventArgs arguments)
+        {
+            if (TextboxName.Text.Trim().Length > 0)
+            {
+                PacketSender.SendAdminAction(new ViewStatsAction(TextboxName.Text));
+            }
+        }
+
+        void _viewInventoryButton_Clicked(Base sender, ClickedEventArgs arguments)
+        {
+            if (TextboxName.Text.Trim().Length > 0)
+            {
             }
         }
 

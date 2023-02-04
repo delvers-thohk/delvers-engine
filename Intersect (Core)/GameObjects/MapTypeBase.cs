@@ -24,9 +24,11 @@ namespace Intersect.GameObjects
         [Column("NametagVisibilityLevel")]
         public VisibilityLevel NametagVisibilityLevel { get; set; }
 
-        [Column("PvpEnabled")]
-        public bool PvpEnabled { get; set; }
+        [Column("PvpType")]
+        public PvpType PvpType { get; set; }
 
+        [Column("CanLoseItems")] 
+        public bool CanLoseItems { get; set; }
 
         public MapTypeBase()
         {
@@ -41,8 +43,11 @@ namespace Intersect.GameObjects
 
         private void Initialize()
         {
-            Name = "New Map Type Base";
-
+            Name = "New Map Type";
+            LanternVisibilityLevel = VisibilityLevel.All;
+            NametagVisibilityLevel = VisibilityLevel.All;
+            PvpType = PvpType.Disabled;
+            CanLoseItems = false;
         }
     }
 
