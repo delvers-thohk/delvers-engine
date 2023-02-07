@@ -3797,6 +3797,11 @@ Tick timer saved in server config.json.";
 
             public static LocalizedString cancel = @"Cancel";
 
+            public static LocalizedString deleteprompt =
+                @"Are you sure you want to delete this item? This action cannot be reverted! If any maps are associated with this map type, their map type will be reset.";
+
+            public static LocalizedString deletetitle = @"Delete Item";
+
         }
 
         public partial struct LightEditor

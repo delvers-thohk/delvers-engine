@@ -87,8 +87,6 @@ namespace Intersect.Editor.Maps
             set
             {
                 Globals.MapEditorWindow.PrepUndoState();
-                var t1 = MapTypeBase.Lookup.Where(x => x.Value.Name == value);
-                var t2 = t1.Select(x => x.Value);
                 mMyMap.MapType = (MapTypeBase) MapTypeBase.Lookup.Where(x => x.Value.Name == value).Select(x => x.Value).FirstOrDefault();
                 Globals.MapEditorWindow.AddUndoState();
             }
@@ -707,9 +705,7 @@ namespace Intersect.Editor.Maps
 
         public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
         {
-            var values = new List<string>();
-            values.AddRange(MapTypeBase.Lookup.Select(x => ((MapTypeBase) x.Value).Name).ToArray());
-            return new StandardValuesCollection(values);
+            return new StandardValuesCollection(MapTypeBase.Lookup.Select(x => ((MapTypeBase)x.Value).Name).ToArray());
         }
 
     }
