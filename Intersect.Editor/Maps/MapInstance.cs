@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.IO;
@@ -358,7 +358,7 @@ namespace Intersect.Editor.Maps
 
         public new static MapInstance Get(Guid id)
         {
-            return MapInstance.Lookup.Get<MapInstance>(id);
+            return Lookup.Get<MapInstance>(id);
         }
 
         public override void Delete()

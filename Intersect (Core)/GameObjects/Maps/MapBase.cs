@@ -289,6 +289,7 @@ namespace Intersect.GameObjects.Maps
 
         public int Brightness { get; set; } = 100;
 
+        public Guid? MapTypeId { get; set; }
         public MapTypeBase MapType { get; set; }
 
         public int PlayerLightSize { get; set; } = 300;

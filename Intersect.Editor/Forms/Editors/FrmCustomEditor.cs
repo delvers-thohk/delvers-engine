@@ -1,21 +1,17 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.Linq;
 using System.Windows.Forms;
-
 using DarkUI.Forms;
-
-using Intersect.Editor.Content;
 using Intersect.Editor.General;
 using Intersect.Editor.Localization;
 using Intersect.Editor.Networking;
 using Intersect.Enums;
 using Intersect.Extensions;
 using Intersect.GameObjects;
-using Intersect.GameObjects.Events;
-using Intersect.Utilities;
+using Intersect.Models;
+using Intersect.GameObjects.Maps;
+using Intersect.Editor.Maps;
 
 namespace Intersect.Editor.Forms.Editors
 {
@@ -23,43 +19,50 @@ namespace Intersect.Editor.Forms.Editors
     public partial class FrmCustomEditor : EditorForm
     {
 
-        private List<ItemBase> mChanged = new List<ItemBase>();
+        private List<IDatabaseObject> mChanged = new List<IDatabaseObject>();
 
-        private string mCopiedItem;
-
-        private ItemBase mEditorItem;
-
+        private CustomEditorType mEditorType = CustomEditorType.MapType;
+        private IDatabaseObject mVariable;
         public FrmCustomEditor()
         {
             ApplyHooks();
             InitializeComponent();
             Icon = System.Drawing.Icon.ExtractAssociatedIcon(System.Reflection.Assembly.GetExecutingAssembly().Location);
 
-            lstGameObjects.Init(null, AssignEditorItem, null, null, null, null, null);
+            mapTypePvpCombo.Items.AddRange(PopulateFromEnum<PvpType>(typeof(PvpType)));
+            mapTypeNametagCombo.Items.AddRange(PopulateFromEnum<VisibilityLevel>(typeof(VisibilityLevel)));
+            mapTypeLanternCombo.Items.AddRange(PopulateFromEnum<VisibilityLevel>(typeof(VisibilityLevel)));
+            lstVariableType.Init(null, AssignEditorVariableType, null, null, null, null, null);
+            lstVariable.Init(UpdateToolStripItems, AssignEditorVariable, toolStripItemNew_Click, null, null, null, null);
         }
-        private void AssignEditorItem(Guid id)
+        private void AssignEditorVariableType(Guid id)
         {
-            mEditorItem = ItemBase.Get(id);
+            mEditorType = ((CustomEditorType[])Enum.GetValues(typeof(CustomEditorType))).Where(x => (Guid)x.GetAmbientValue() == id).FirstOrDefault();
+            UpdateEditor();
+        }
+
+        private void AssignEditorVariable(Guid id)
+        {
+            switch (mEditorType)
+            {
+                case CustomEditorType.MapType:
+                    mapTypePanel.Visible = true;
+                    break;
+            }
+            mVariable = LookupUtils.GetLookup(mEditorType.GetEntity()).Get(id);
             UpdateEditor();
         }
 
         protected override void GameObjectUpdatedDelegate(GameObjectType type)
         {
-            if (type == GameObjectType.Item)
+            if (type == GameObjectType.MapType)
             {
                 InitEditor();
-                if (mEditorItem != null && !ItemBase.Lookup.Values.Contains(mEditorItem))
+                if (mVariable != null && !MapTypeBase.Lookup.Values.Contains(mVariable))
                 {
-                    mEditorItem = null;
+                    mVariable = null;
                     UpdateEditor();
                 }
-            }
-            else if (type == GameObjectType.Class ||
-                     type == GameObjectType.Projectile ||
-                     type == GameObjectType.Animation ||
-                     type == GameObjectType.Spell)
-            {
-                frmItem_Load(null, null);
             }
         }
 
@@ -74,6 +77,7 @@ namespace Intersect.Editor.Forms.Editors
             Hide();
             Globals.CurrentEditor = -1;
             Dispose();
+
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -90,8 +94,8 @@ namespace Intersect.Editor.Forms.Editors
             Dispose();
         }
 
-        private void frmItem_Load(object sender, EventArgs e)
-        {           
+        private void frmCustomEditor_Load(object sender, EventArgs e)
+        {
             InitLocalization();
             UpdateEditor();
         }
@@ -99,12 +103,12 @@ namespace Intersect.Editor.Forms.Editors
         private void InitLocalization()
         {
             Text = Strings.CustomEditor.title;
-            grpVariables.Text = Strings.CustomEditor.variables;
-           
-           
+            grpVariableType.Text = Strings.CustomEditor.variables;
+            grpVariable.Text = mEditorType.GetEnumDescription();
+
             //Searching/Sorting
-            txtSearch.Text = Strings.CustomEditor.searchplaceholder;
-            
+            txtVariableTypeSearch.Text = Strings.CustomEditor.searchplaceholder;
+            txtVariableSearch.Text = Strings.CustomEditor.searchplaceholder;
 
             btnSave.Text = Strings.CustomEditor.save;
             btnCancel.Text = Strings.CustomEditor.cancel;
@@ -114,17 +118,22 @@ namespace Intersect.Editor.Forms.Editors
 
         private void UpdateEditor()
         {
-            if (mEditorItem != null)
+            if (mVariable != null)
             {
-                if (mChanged.IndexOf(mEditorItem) == -1)
+                switch (mEditorType)
                 {
-                    mChanged.Add(mEditorItem);
-                    mEditorItem.MakeBackup();
+                    case CustomEditorType.MapType:
+                        AssignMapTypeEditorFields();
+                        break;
+                }
+                if (mChanged.IndexOf(mVariable) == -1)
+                {
+                    mChanged.Add(mVariable);
+                    mVariable.MakeBackup();
                 }
             }
-            else
-            {
-            }
+
+            UpdateToolStripItems();
         }
 
         private void FrmItem_FormClosed(object sender, FormClosedEventArgs e)
@@ -136,55 +145,156 @@ namespace Intersect.Editor.Forms.Editors
 
         public void InitEditor()
         {
-            var items = new List<KeyValuePair<Guid, KeyValuePair<string, string>>>();
-            var editorTypes = Enum.GetValues(typeof(CustomEditorType));
-            foreach(var editorType in editorTypes)
+            var variableTypes = new List<KeyValuePair<Guid, KeyValuePair<string, string>>>();
+            var variableTypeValues = Enum.GetValues(typeof(CustomEditorType));
+            foreach (var editorType in variableTypeValues)
             {
-                items.Add(new KeyValuePair<Guid, KeyValuePair<string, string>>((Guid)((CustomEditorType) editorType).GetAmbientValue(), 
+                variableTypes.Add(new KeyValuePair<Guid, KeyValuePair<string, string>>((Guid)((CustomEditorType)editorType).GetAmbientValue(), 
                     new KeyValuePair<string, string>(((CustomEditorType)editorType).GetEnumDescription(), "")));
             }
-            lstGameObjects.Repopulate(items.ToArray(), new List<string>(), false, CustomSearch(), txtSearch.Text);
+            lstVariableType.Repopulate(variableTypes.ToArray(), new List<string>(), false, CustomSearch(txtVariableTypeSearch.Text), txtVariableTypeSearch.Text);
+            var variables = LookupUtils.GetLookup(mEditorType.GetEntity()).Select(x => new KeyValuePair<Guid, KeyValuePair<string, string>>(x.Value.Id,
+                new KeyValuePair<string, string>(x.Value.Name, "")));
+            lstVariable.Repopulate(variables.ToArray(), new List<string>(), false, CustomSearch(txtVariableSearch.Text), txtVariableSearch.Text);
         }
 
-        private void txtSearch_TextChanged(object sender, EventArgs e)
+        private void txtVariableTypeSearch_TextChanged(object sender, EventArgs e)
         {
             InitEditor();
         }
 
-        private void txtSearch_Leave(object sender, EventArgs e)
+        private void txtVariableTypeSearch_Leave(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtSearch.Text))
+            if (string.IsNullOrWhiteSpace(txtVariableTypeSearch.Text))
             {
-                txtSearch.Text = Strings.ItemEditor.searchplaceholder;
+                txtVariableTypeSearch.Text = Strings.ItemEditor.searchplaceholder;
             }
         }
 
-        private void txtSearch_Enter(object sender, EventArgs e)
+        private void txtVariableTypeSearch_Enter(object sender, EventArgs e)
         {
-            txtSearch.SelectAll();
-            txtSearch.Focus();
+            txtVariableTypeSearch.SelectAll();
+            txtVariableTypeSearch.Focus();
+        }
+        private void txtVariableSearch_TextChanged(object sender, EventArgs e)
+        {
+            InitEditor();
         }
 
-        private void btnClearSearch_Click(object sender, EventArgs e)
+        private void txtVariableSearch_Leave(object sender, EventArgs e)
         {
-            txtSearch.Text = Strings.ItemEditor.searchplaceholder;
-        }
-
-        private bool CustomSearch()
-        {
-            return !string.IsNullOrWhiteSpace(txtSearch.Text) && txtSearch.Text != Strings.ItemEditor.searchplaceholder;
-        }
-
-        private void txtSearch_Click(object sender, EventArgs e)
-        {
-            if (txtSearch.Text == Strings.ItemEditor.searchplaceholder)
+            if (string.IsNullOrWhiteSpace(txtVariableSearch.Text))
             {
-                txtSearch.SelectAll();
+                txtVariableSearch.Text = Strings.ItemEditor.searchplaceholder;
             }
         }
 
+        private void txtVariableSearch_Enter(object sender, EventArgs e)
+        {
+            txtVariableSearch.SelectAll();
+            txtVariableSearch.Focus();
+        }
+
+        private void btnClearVariableTypeSearch_Click(object sender, EventArgs e)
+        {
+            txtVariableTypeSearch.Text = Strings.ItemEditor.searchplaceholder;
+        }
+
+        private void btnClearVariableSearch_Click(object sender, EventArgs e)
+        {
+            txtVariableSearch.Text = Strings.ItemEditor.searchplaceholder;
+        }
+
+        private static bool CustomSearch(string searchText)
+        {
+            return !string.IsNullOrWhiteSpace(searchText) && searchText != Strings.ItemEditor.searchplaceholder;
+        }
+
+        private void txtVariableTypeSearch_Click(object sender, EventArgs e)
+        {
+            if (txtVariableTypeSearch.Text == Strings.ItemEditor.searchplaceholder)
+            {
+                txtVariableTypeSearch.SelectAll();
+            }
+        }
+
+        private void txtVariableSearch_Click(object sender, EventArgs e)
+        {
+            if (txtVariableSearch.Text == Strings.ItemEditor.searchplaceholder)
+            {
+                txtVariableSearch.SelectAll();
+            }
+        }
+
+        private void mapTypeNameTxt_TextChanged(object sender, EventArgs e)
+        {
+            mVariable.Name = mapTypeNameTxt.Text;
+            lstVariable.UpdateText(mapTypeNameTxt.Text);
+        }
+
+        private void mapTypePvpCombo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ((MapTypeBase) mVariable).PvpType = (PvpType) mapTypePvpCombo.SelectedIndex;
+        }
+
+        private void mapTypeNametagCombo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ((MapTypeBase) mVariable).NametagVisibilityLevel = (VisibilityLevel) mapTypeNametagCombo.SelectedIndex;
+        }
+
+        private void mapTypeLanternCombo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ((MapTypeBase) mVariable).LanternVisibilityLevel = (VisibilityLevel) mapTypeLanternCombo.SelectedIndex;
+        }
+
+        private void mapTypeItemDropCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            ((MapTypeBase) mVariable).CanLoseItems = mapTypeItemDropCheckBox.Checked;
+        }
+
+        private void toolStripItemNew_Click(object sender, EventArgs e)
+        {
+            ;
+
+            PacketSender.SendCreateObject(((GameObjectType[])Enum.GetValues(typeof(GameObjectType))).Where(x => x.GetGameObjectInfo() == mEditorType.GetEntity()).FirstOrDefault());
+        }
+
+        private void toolStripItemDelete_Click(object sender, EventArgs e)
+        {
+            if (mVariable != null && lstVariable.Focused)
+            {
+                if (DarkMessageBox.ShowWarning(
+                        Strings.CustomEditor.deleteprompt, Strings.CustomEditor.deletetitle, DarkDialogButton.YesNo,
+                        Icon
+                    ) ==
+                    DialogResult.Yes)
+                {
+                    PacketSender.SendDeleteObject(mVariable);
+                }
+                mapTypePanel.Visible = false;
+            }
+        }
+
+        private void UpdateToolStripItems()
+        {
+            toolStripItemDelete.Enabled = mVariable != null && lstVariable.Focused;
+        }
 
         #endregion
-    }
+        private void AssignMapTypeEditorFields()
+        {
+            var mVariableCast = (MapTypeBase) mVariable;
+            mapTypeNameTxt.Text = mVariableCast.Name;
+            mapTypePvpCombo.SelectedIndex = ((int)mVariableCast.PvpType);
+            mapTypeNametagCombo.SelectedIndex = ((int)mVariableCast.NametagVisibilityLevel);
+            mapTypeLanternCombo.SelectedIndex = ((int)mVariableCast.LanternVisibilityLevel);
+            mapTypeItemDropCheckBox.Checked = mVariableCast.CanLoseItems;
+        }    
+
+        private string[] PopulateFromEnum<T>(Type type) where T : Enum
+        {
+            return Enum.GetValues(type).Cast<T>().Select(x => x.GetEnumDescription()).ToArray();
+        }
+}
 
 }

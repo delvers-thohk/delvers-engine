@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
+using Intersect.Attributes;
 
 namespace Intersect.Extensions
 {
@@ -33,6 +34,29 @@ namespace Intersect.Extensions
                 return default;
 
             return ((AmbientValueAttribute)attributes[0]).Value;
+        }
+
+        public static Type GetEntity(this Enum enumVal)
+        {
+            Type type = enumVal.GetType();
+            MemberInfo[] memInfo = type.GetMember(enumVal.ToString());
+            object[] attributes = memInfo[0].GetCustomAttributes(typeof(EntityAttribute), false);
+
+            if (attributes == null || attributes.Length == 0)
+                return default;
+
+            return ((EntityAttribute)attributes[0]).type;
+        }
+        public static Type GetGameObjectInfo(this Enum enumVal)
+        {
+            Type type = enumVal.GetType();
+            MemberInfo[] memInfo = type.GetMember(enumVal.ToString());
+            object[] attributes = memInfo[0].GetCustomAttributes(typeof(GameObjectInfoAttribute), false);
+
+            if (attributes == null || attributes.Length == 0)
+                return default;
+
+            return ((GameObjectInfoAttribute) attributes[0]).Type;
         }
     }
 }

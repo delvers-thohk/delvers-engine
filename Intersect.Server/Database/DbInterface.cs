@@ -669,7 +669,7 @@ namespace Intersect.Server.Database
 
                             break;
                         case GameObjectType.Map:
-                            foreach (var map in context.Maps)
+                            foreach (var map in context.Maps.Include(x => x.MapType))
                             {
                                 MapController.Lookup.Set(map.Id, map);
                                 if (Options.Instance.MapOpts.Layers.DestroyOrphanedLayers)
@@ -838,6 +838,11 @@ namespace Intersect.Server.Database
                     dbObj = new UserVariableBase(predefinedid);
 
                     break;
+
+                case GameObjectType.MapType:
+                    dbObj = new MapTypeBase(predefinedid);
+
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(gameObjectType), gameObjectType, null);
             }
@@ -961,6 +966,13 @@ namespace Intersect.Server.Database
                         case GameObjectType.UserVariable:
                             context.UserVariables.Add((UserVariableBase)dbObj);
                             UserVariableBase.Lookup.Set(dbObj.Id, dbObj);
+
+                            break;
+
+
+                        case GameObjectType.MapType:
+                            context.MapType.Add((MapTypeBase)dbObj);
+                            MapTypeBase.Lookup.Set(dbObj.Id, dbObj);
 
                             break;
 
@@ -1090,6 +1102,22 @@ namespace Intersect.Server.Database
                             context.UserVariables.Remove((UserVariableBase)gameObject);
 
                             break;
+                        case GameObjectType.MapType:
+                            var updatedMaps = context.Maps.Where(x => x.MapTypeId == gameObject.Id);
+                            foreach (var map in updatedMaps)
+                            {
+                                map.MapTypeId = null;
+                            }
+                            context.SaveChanges();
+                            foreach (var map in updatedMaps)
+                            { 
+                                MapController.Lookup.Set(map.Id, map);
+                                GenerateMapGrids();
+                                PacketSender.SendMapToEditors(map.Id);
+                            }
+                            context.MapType.Remove((MapTypeBase) gameObject);
+
+                            break;
                     }
 
                     if (gameObject.Type.GetLookup().Values.Contains(gameObject))
@@ -1099,7 +1127,6 @@ namespace Intersect.Server.Database
                             throw new Exception();
                         }
                     }
-
                     context.ChangeTracker.DetectChanges();
                     context.Entry(gameObject).State = EntityState.Deleted;
                     context.SaveChanges();
@@ -1212,6 +1239,10 @@ namespace Intersect.Server.Database
                             break;
                         case GameObjectType.UserVariable:
                             context.UserVariables.Update((UserVariableBase)gameObject);
+
+                            break;
+                        case GameObjectType.MapType:
+                            context.MapType.Update((MapTypeBase) gameObject);
 
                             break;
                     }

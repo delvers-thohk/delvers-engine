@@ -3713,6 +3713,11 @@ namespace Intersect.Server.Networking
 
                     break;
 
+                case GameObjectType.MapType:
+                    obj = MapTypeBase.Get(id);
+
+                    break;
+
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -3732,7 +3737,6 @@ namespace Intersect.Server.Networking
                 {
                     Globals.KillNpcsOf((NpcBase) obj);
                 }
-
                 DbInterface.DeleteGameObject(obj);
 
                 PacketSender.CacheGameDataPacket();
@@ -3839,6 +3843,11 @@ namespace Intersect.Server.Networking
 
                 case GameObjectType.UserVariable:
                     obj = UserVariableBase.Get(id);
+
+                    break;
+
+                case GameObjectType.MapType:
+                    obj = MapTypeBase.Get(id);
 
                     break;
 
