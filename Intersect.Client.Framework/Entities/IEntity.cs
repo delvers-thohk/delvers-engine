@@ -19,6 +19,7 @@ namespace Intersect.Client.Framework.Entities
         Label HeaderLabel { get; }
         bool IsHidden { get; }
         string Sprite { get; }
+        string Hair { get; }
         string TransformedSprite { get; }
         string Face { get; }
         GameTexture Texture { get; }

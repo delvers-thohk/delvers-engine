@@ -1,4 +1,4 @@
-﻿using MessagePack;
+using MessagePack;
 using System;
 
 namespace Intersect.Network.Packets.Server
@@ -25,60 +25,63 @@ namespace Intersect.Network.Packets.Server
         public string Sprite { get; set; }
 
         [Key(5)]
-        public string Face { get; set; }
+        public string Hair { get; set; }
 
         [Key(6)]
-        public int Level { get; set; }
+        public string Face { get; set; }
 
         [Key(7)]
-        public byte X { get; set; }
+        public int Level { get; set; }
 
         [Key(8)]
-        public byte Y { get; set; }
+        public byte X { get; set; }
 
         [Key(9)]
-        public byte Z { get; set; }
+        public byte Y { get; set; }
 
         [Key(10)]
-        public byte Dir { get; set; }
+        public byte Z { get; set; }
 
         [Key(11)]
-        public bool Passable { get; set; }
+        public byte Dir { get; set; }
 
         [Key(12)]
-        public bool HideName { get; set; }
+        public bool Passable { get; set; }
 
         [Key(13)]
-        public bool HideEntity { get; set; }
+        public bool HideName { get; set; }
 
         [Key(14)]
-        public Guid[] Animations { get; set; }
+        public bool HideEntity { get; set; }
 
         [Key(15)]
-        public int[] Vital { get; set; }
+        public Guid[] Animations { get; set; }
 
         [Key(16)]
-        public int[] MaxVital { get; set; }
+        public int[] Vital { get; set; }
 
         [Key(17)]
-        public int[] Stats { get; set; }
+        public int[] MaxVital { get; set; }
 
         [Key(18)]
-        public StatusPacket[] StatusEffects { get; set; }
+        public int[] Stats { get; set; }
 
         [Key(19)]
-        public bool IsSelf { get; set; }
+        public StatusPacket[] StatusEffects { get; set; }
 
         [Key(20)]
-        public Color NameColor { get; set; }
+        public bool IsSelf { get; set; }
 
         [Key(21)]
-        public LabelPacket HeaderLabel { get; set; }
+        public Color NameColor { get; set; }
 
         [Key(22)]
-        public LabelPacket FooterLabel { get; set; }
+        public LabelPacket HeaderLabel { get; set; }
 
         [Key(23)]
+        public LabelPacket FooterLabel { get; set; }
+
+        [Key(24)]
         public Color Color { get; set; }
 
     }

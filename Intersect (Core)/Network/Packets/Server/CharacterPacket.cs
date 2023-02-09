@@ -25,6 +25,7 @@ namespace Intersect.Network.Packets.Server
             Guid id,
             string name,
             string sprite,
+            string hair,
             string face,
             int level,
             string className,
@@ -34,6 +35,7 @@ namespace Intersect.Network.Packets.Server
             Id = id;
             Name = name;
             Sprite = sprite;
+            Hair = hair;
             Face = face;
             Level = level;
             ClassName = className;
@@ -50,15 +52,18 @@ namespace Intersect.Network.Packets.Server
         public string Sprite { get; set; }
 
         [Key(3)]
-        public string Face { get; set; }
+        public string Hair { get; set; }
 
         [Key(4)]
-        public int Level { get; set; }
+        public string Face { get; set; }
 
         [Key(5)]
-        public string ClassName { get; set; }
+        public int Level { get; set; }
 
         [Key(6)]
+        public string ClassName { get; set; }
+
+        [Key(7)]
         public EquipmentFragment[] Equipment { get; set; }
 
     }

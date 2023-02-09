@@ -287,14 +287,22 @@ namespace Intersect.Client.Interface.Menu
 
                         if (paperdollPortrait != mCharacterPortrait)
                         {
+                            string textureName = String.Empty;
                             if (equipment == null)
                             {
-                                paperdollPortrait.Texture = null;
-                                continue;
+                                if (string.Equals("Helmet", Options.PaperdollOrder[1][i], StringComparison.Ordinal)  && !String.IsNullOrEmpty(Characters[mSelectedChar].Hair))
+                                {
+                                    textureName = Characters[mSelectedChar].Hair;
+                                }
+                                else
+                                {
+                                    paperdollPortrait.Texture = null;
+                                    continue;
+                                }
                             }
 
                             paperdollPortrait.Texture = Globals.ContentManager.GetTexture(
-                                Framework.Content.TextureType.Paperdoll, equipment.Name
+                                Framework.Content.TextureType.Paperdoll, equipment?.Name ?? textureName
                             );
 
                             if (paperdollPortrait.Texture != null)
@@ -311,13 +319,14 @@ namespace Intersect.Client.Interface.Menu
                                         paperdollPortrait.Texture.GetHeight() / Options.Instance.Sprites.Directions
                                     );
 
+
                                 paperdollPortrait
                                     .SetPosition(
                                         (mCharacterContainer.Width - paperdollPortrait.Width) / 2,
                                         (mCharacterContainer.Height - paperdollPortrait.Height) / 2
                                     );
 
-                                paperdollPortrait.RenderColor = equipment.RenderColor;
+                                paperdollPortrait.RenderColor = equipment?.RenderColor ?? Color.White;
 
                                 paperdollPortrait.Show();
                             }
@@ -453,6 +462,8 @@ namespace Intersect.Client.Interface.Menu
 
         public string Sprite = "";
 
+        public string Hair = "";
+
         public Character(Guid id)
         {
             Id = id;
@@ -462,6 +473,7 @@ namespace Intersect.Client.Interface.Menu
             Guid id,
             string name,
             string sprite,
+            string hair,
             string face,
             int level,
             string charClass,
@@ -472,6 +484,7 @@ namespace Intersect.Client.Interface.Menu
             Id = id;
             Name = name;
             Sprite = sprite;
+            Hair = hair;
             Face = face;
             Level = level;
             Class = charClass;

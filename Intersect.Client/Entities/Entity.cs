@@ -132,6 +132,8 @@ namespace Intersect.Client.Entities
 
         protected string mMySprite = "";
 
+        protected string mMyHair = "";
+
         public Color Color { get; set; } = new Color(255, 255, 255, 255);
 
         public int MoveDir { get; set; } = -1;
@@ -309,6 +311,15 @@ namespace Intersect.Client.Entities
             }
         }
 
+        public virtual string Hair
+        {
+            get => mMyHair;
+            set
+            {
+                mMyHair = value;
+            }
+        }
+
         public virtual int SpriteFrames
         {
             get
@@ -349,6 +360,7 @@ namespace Intersect.Client.Entities
             MapId = packet.MapId;
             Name = packet.Name;
             Sprite = packet.Sprite;
+            Hair = packet.Hair;
             Color = packet.Color;
             Face = packet.Face;
             Level = packet.Level;
@@ -1049,11 +1061,18 @@ namespace Intersect.Client.Entities
                                 itemId = Equipment[equipSlot];
                             }
 
-                            var item = ItemBase.Get(itemId);
-                            if (ItemBase.TryGet(itemId, out var itemDescriptor))
+                            if (string.Equals("Helmet", paperdoll, StringComparison.Ordinal) && itemId == Guid.Empty && !String.IsNullOrEmpty(this.Hair))
                             {
-                                var itemPaperdoll = Gender == 0 ? itemDescriptor.MalePaperdoll : itemDescriptor.FemalePaperdoll;
-                                DrawEquipment(itemPaperdoll, item.Color * renderColor, destRectangle);
+                                DrawEquipment(this.Hair, Color.White, destRectangle);
+                            }
+                            else
+                            {
+                                var item = ItemBase.Get(itemId);
+                                if (ItemBase.TryGet(itemId, out var itemDescriptor))
+                                {
+                                    var itemPaperdoll = Gender == 0 ? itemDescriptor.MalePaperdoll : itemDescriptor.FemalePaperdoll;
+                                    DrawEquipment(itemPaperdoll, item.Color * renderColor, destRectangle);
+                                }
                             }
                         }
                     }

@@ -1,4 +1,4 @@
-﻿using MessagePack;
+using MessagePack;
 
 namespace Intersect.Network.Packets.Server
 {
@@ -11,7 +11,7 @@ namespace Intersect.Network.Packets.Server
         }
 
 
-        [Key(24)]
+        [Key(25)]
         public int Aggression { get; set; }
     }
 

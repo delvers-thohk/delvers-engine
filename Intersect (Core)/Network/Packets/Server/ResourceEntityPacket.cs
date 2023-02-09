@@ -1,4 +1,4 @@
-﻿using MessagePack;
+using MessagePack;
 using System;
 
 namespace Intersect.Network.Packets.Server
@@ -12,11 +12,11 @@ namespace Intersect.Network.Packets.Server
         }
 
 
-        [Key(24)]
+        [Key(25)]
         public Guid ResourceId { get; set; }
 
 
-        [Key(25)]
+        [Key(26)]
         public bool IsDead { get; set; }
 
     }

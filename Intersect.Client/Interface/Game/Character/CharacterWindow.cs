@@ -288,8 +288,40 @@ namespace Intersect.Client.Interface.Game.Character
                     }
                     else if (paperdoll != "" && paperdoll != PaperdollTextures[z])
                     {
+
                         var paperdollTex = Globals.ContentManager.GetTexture(
                             Framework.Content.TextureType.Paperdoll, paperdoll
+                        );
+
+                        PaperdollPanels[z].Texture = paperdollTex;
+                        if (paperdollTex != null)
+                        {
+                            PaperdollPanels[z]
+                                .SetTextureRect(
+                                    0, 0, PaperdollPanels[z].Texture.GetWidth() / Options.Instance.Sprites.NormalFrames,
+                                    PaperdollPanels[z].Texture.GetHeight() / Options.Instance.Sprites.Directions
+                                );
+
+                            PaperdollPanels[z]
+                                .SetSize(
+                                    PaperdollPanels[z].Texture.GetWidth() / Options.Instance.Sprites.NormalFrames,
+                                    PaperdollPanels[z].Texture.GetHeight() / Options.Instance.Sprites.Directions
+                                );
+
+                            PaperdollPanels[z]
+                                .SetPosition(
+                                    mCharacterContainer.Width / 2 - PaperdollPanels[z].Width / 2,
+                                    mCharacterContainer.Height / 2 - PaperdollPanels[z].Height / 2
+                                );
+                        }
+
+                        PaperdollPanels[z].Show();
+                        PaperdollTextures[z] = paperdoll;
+                    }
+                    else if (string.Equals("Helmet", Options.PaperdollOrder[1][z], StringComparison.Ordinal) && String.IsNullOrEmpty(paperdoll) && !String.IsNullOrEmpty(Player.Hair))
+                        {
+                        var paperdollTex = Globals.ContentManager.GetTexture(
+                            Framework.Content.TextureType.Paperdoll, Player.Hair
                         );
 
                         PaperdollPanels[z].Texture = paperdollTex;

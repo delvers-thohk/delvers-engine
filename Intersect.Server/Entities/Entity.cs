@@ -82,6 +82,8 @@ namespace Intersect.Server.Entities
 
         public string Sprite { get; set; }
 
+        public string Hair { get; set; }
+
         /// <summary>
         /// The database compatible version of <see cref="Color"/>
         /// </summary>
@@ -2820,6 +2822,7 @@ namespace Intersect.Server.Entities
             packet.MapId = MapId;
             packet.Name = Name;
             packet.Sprite = Sprite;
+            packet.Hair = Hair;
             packet.Color = Color;
             packet.Face = Face;
             packet.Level = Level;

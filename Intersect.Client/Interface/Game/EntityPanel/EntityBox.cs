@@ -134,7 +134,6 @@ namespace Intersect.Client.Interface.Game.EntityPanel
                 if (Options.PaperdollOrder[1][z] == "Player")
                 {
                     EntityFaceContainer = new ImagePanel(EntityInfoPanel, "EntityGraphicContainer");
-
                     EntityFace = new ImagePanel(EntityFaceContainer);
                     EntityFace.SetSize(64, 64);
                     EntityFace.AddAlignment(Alignments.Center);
@@ -920,6 +919,11 @@ namespace Intersect.Client.Interface.Game.EntityPanel
                                     ? itemDescriptor.MalePaperdoll : itemDescriptor.FemalePaperdoll;
                                 paperdollPanel.RenderColor = itemDescriptor.Color;
                             }
+                        }
+                        else if (String.Equals("Helmet", Options.PaperdollOrder[1][z], StringComparison.Ordinal) && !String.IsNullOrEmpty(MyEntity.Hair))
+                        {
+                            paperdoll = MyEntity.Hair;
+                            paperdollPanel.RenderColor = Color.White;
                         }
                     }
 
