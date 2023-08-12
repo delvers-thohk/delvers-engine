@@ -360,40 +360,40 @@ namespace Intersect.Client.Interface.Game.Character
             }
 
             mAttackLabel.SetText(
-                Strings.Character.stat0.ToString(Strings.Combat.stat0, Player.Stat[(int) Stats.Attack])
+                Strings.Character.stat0.ToString(Strings.Combat.stat0, Player.Stat[(int) Stat.Attack])
             );
 
             mDefenseLabel.SetText(
-                Strings.Character.stat2.ToString(Strings.Combat.stat2, Player.Stat[(int) Stats.Defense])
+                Strings.Character.stat2.ToString(Strings.Combat.stat2, Player.Stat[(int) Stat.Defense])
             );
 
             mSpeedLabel.SetText(
-                Strings.Character.stat4.ToString(Strings.Combat.stat4, Player.Stat[(int) Stats.Speed])
+                Strings.Character.stat4.ToString(Strings.Combat.stat4, Player.Stat[(int) Stat.Speed])
             );
 
             mAbilityPwrLabel.SetText(
-                Strings.Character.stat1.ToString(Strings.Combat.stat1, Player.Stat[(int) Stats.AbilityPower])
+                Strings.Character.stat1.ToString(Strings.Combat.stat1, Player.Stat[(int) Stat.AbilityPower])
             );
 
             mMagicRstLabel.SetText(
-                Strings.Character.stat3.ToString(Strings.Combat.stat3, Player.Stat[(int) Stats.MagicResist])
+                Strings.Character.stat3.ToString(Strings.Combat.stat3, Player.Stat[(int) Stat.MagicResist])
             );
 
             mPointsLabel.SetText(Strings.Character.points.ToString(Player.StatPoints));
             mAddAbilityPwrBtn.IsHidden = Player.StatPoints == 0 ||
-                                         Player.Stat[(int) Stats.AbilityPower] == Options.MaxStatValue;
+                                         Player.Stat[(int) Stat.AbilityPower] == Options.MaxStatValue;
 
             mAddAttackBtn.IsHidden =
-                Player.StatPoints == 0 || Player.Stat[(int) Stats.Attack] == Options.MaxStatValue;
+                Player.StatPoints == 0 || Player.Stat[(int) Stat.Attack] == Options.MaxStatValue;
 
             mAddDefenseBtn.IsHidden = Player.StatPoints == 0 ||
-                                      Player.Stat[(int) Stats.Defense] == Options.MaxStatValue;
+                                      Player.Stat[(int) Stat.Defense] == Options.MaxStatValue;
 
             mAddMagicResistBtn.IsHidden = Player.StatPoints == 0 ||
-                                          Player.Stat[(int) Stats.MagicResist] == Options.MaxStatValue;
+                                          Player.Stat[(int) Stat.MagicResist] == Options.MaxStatValue;
 
             mAddSpeedBtn.IsHidden =
-                Player.StatPoints == 0 || Player.Stat[(int) Stats.Speed] == Options.MaxStatValue;
+                Player.StatPoints == 0 || Player.Stat[(int) Stat.Speed] == Options.MaxStatValue;
 
             UpdateExtraBuffs();
 
