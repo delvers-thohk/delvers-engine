@@ -50,7 +50,7 @@ namespace Intersect.Client.Interface.Game.EntityPanel
 
         public ImagePanel EntityStatusPanel;
 
-        public EntityTypes EntityType;
+        public EntityType EntityType;
 
         public RichLabel EventDesc;
 
@@ -107,7 +107,7 @@ namespace Intersect.Client.Interface.Game.EntityPanel
         public Button GuildLabel;
 
         //Init
-        public EntityBox(Canvas gameCanvas, EntityTypes entityType, Entity myEntity, bool playerBox = false)
+        public EntityBox(Canvas gameCanvas, EntityType entityType, Entity myEntity, bool playerBox = false)
         {
             MyEntity = myEntity;
             EntityType = entityType;
@@ -214,7 +214,7 @@ namespace Intersect.Client.Interface.Game.EntityPanel
 
             EntityWindow.Hide();
 
-            mLastUpdateTime = Timing.Global.Milliseconds;
+            mLastUpdateTime = Timing.Global.MillisecondsUtc;
         }
 
         public void SetEntity(Entity entity)
@@ -224,7 +224,7 @@ namespace Intersect.Client.Interface.Game.EntityPanel
             {
                 SetupEntityElements();
                 UpdateSpellStatus();
-                if (EntityType == EntityTypes.Event)
+                if (EntityType == EntityType.Event)
                 {
                     EventDesc.ClearText();
                     EventDesc.AddText(((Event)MyEntity).Desc, Color.White);
@@ -233,7 +233,7 @@ namespace Intersect.Client.Interface.Game.EntityPanel
             }
         }
 
-        public void SetEntity(Entity entity, EntityTypes type)
+        public void SetEntity(Entity entity, EntityType type)
         {
             MyEntity = entity;
             EntityType = type;
@@ -241,7 +241,7 @@ namespace Intersect.Client.Interface.Game.EntityPanel
             {
                 SetupEntityElements();
                 UpdateSpellStatus();
-                if (EntityType == EntityTypes.Event)
+                if (EntityType == EntityType.Event)
                 {
                     EventDesc.ClearText();
                     EventDesc.AddText(((Event)MyEntity).Desc, Color.White);
@@ -292,7 +292,7 @@ namespace Intersect.Client.Interface.Game.EntityPanel
 
             switch (EntityType)
             {
-                case EntityTypes.Player:
+                case EntityType.Player:
                     if (Globals.Me != null && Globals.Me == MyEntity)
                     {
                         TradeLabel.Hide();
@@ -321,7 +321,7 @@ namespace Intersect.Client.Interface.Game.EntityPanel
                     EventDesc.Hide();
 
                     break;
-                case EntityTypes.GlobalEntity:
+                case EntityType.GlobalEntity:
                     EventDesc.Hide();
                     ExpBackground.Hide();
                     ExpBar.Hide();
@@ -334,7 +334,7 @@ namespace Intersect.Client.Interface.Game.EntityPanel
                     EntityMap.Hide();
 
                     break;
-                case EntityTypes.Event:
+                case EntityType.Event:
                     EventDesc.Show();
                     ExpBackground.Hide();
                     ExpBar.Hide();
@@ -397,13 +397,13 @@ namespace Intersect.Client.Interface.Game.EntityPanel
             UpdateSpellStatus();
 
             //Time since this window was last updated (for bar animations)
-            var elapsedTime = (Timing.Global.Milliseconds - mLastUpdateTime) / 1000.0f;
+            var elapsedTime = (Timing.Global.MillisecondsUtc - mLastUpdateTime) / 1000.0f;
 
             //Update the event/entity face.
             UpdateImage();
 
             IsHidden = true;
-            if (EntityType != EntityTypes.Event)
+            if (EntityType != EntityType.Event)
             {
                 EntityName.SetText(MyEntity.Name);
                 UpdateLevel();
@@ -426,9 +426,9 @@ namespace Intersect.Client.Interface.Game.EntityPanel
                 UpdateXpBar(elapsedTime);
             }
 
-            if (MyEntity.Type == EntityTypes.Player && MyEntity != Globals.Me)
+            if (MyEntity.Type == EntityType.Player && MyEntity != Globals.Me)
             {
-                if (MyEntity.Vital[(int)Vitals.Health] <= 0)
+                if (MyEntity.Vital[(int)Vital.Health] <= 0)
                 {
                     TradeLabel.Hide();
                     PartyLabel.Hide();
@@ -455,7 +455,7 @@ namespace Intersect.Client.Interface.Game.EntityPanel
                 itm.Value.Update();
             }
 
-            mLastUpdateTime = Timing.Global.Milliseconds;
+            mLastUpdateTime = Timing.Global.MillisecondsUtc;
         }
 
         public void UpdateSpellStatus()
@@ -686,13 +686,13 @@ namespace Intersect.Client.Interface.Game.EntityPanel
         {
             float targetHpSize;
             float targetShieldSize;
-            var barDirectionSetting = ClientConfiguration.Instance.EntityBarDirections[(int)Vitals.Health];
+            var barDirectionSetting = ClientConfiguration.Instance.EntityBarDirections[(int)Vital.Health];
             var barPercentageSetting = Globals.Database.ShowHealthAsPercentage;
-            var entityVital = (float)MyEntity.Vital[(int)Vitals.Health];
+            var entityVital = (float)MyEntity.Vital[(int)Vital.Health];
 
             if (entityVital > 0)
             {
-                var entityMaxVital = (float)MyEntity.MaxVital[(int)Vitals.Health];
+                var entityMaxVital = (float)MyEntity.MaxVital[(int)Vital.Health];
                 var shieldSize = (float)MyEntity.GetShieldSize();
                 var vitalSize = (int)barDirectionSetting < (int)DisplayDirection.TopToBottom
                     ? HpBackground.Width
@@ -755,13 +755,13 @@ namespace Intersect.Client.Interface.Game.EntityPanel
         private void UpdateMpBar(float elapsedTime, bool instant = false)
         {
             float targetMpSize;
-            var barDirectionSetting = ClientConfiguration.Instance.EntityBarDirections[(int)Vitals.Mana];
+            var barDirectionSetting = ClientConfiguration.Instance.EntityBarDirections[(int)Vital.Mana];
             var barPercentageSetting = Globals.Database.ShowManaAsPercentage;
-            var entityVital = (float)MyEntity.Vital[(int)Vitals.Mana];
+            var entityVital = (float)MyEntity.Vital[(int)Vital.Mana];
 
             if (entityVital > 0)
             {
-                var entityMaxVital = (float)MyEntity.MaxVital[(int)Vitals.Mana];
+                var entityMaxVital = (float)MyEntity.MaxVital[(int)Vital.Mana];
                 var entityVitalRatio = entityVital / entityMaxVital;
                 var vitalSize = (int)barDirectionSetting < (int)DisplayDirection.TopToBottom
                     ? MpBackground.Width
@@ -798,7 +798,7 @@ namespace Intersect.Client.Interface.Game.EntityPanel
         private void UpdateXpBar(float elapsedTime, bool instant = false)
         {
             float targetExpSize;
-            var barDirectionSetting = ClientConfiguration.Instance.EntityBarDirections[(int)Vitals.VitalCount];
+            var barDirectionSetting = ClientConfiguration.Instance.EntityBarDirections[(int)Vital.VitalCount];
             var barPercentageSetting = Globals.Database.ShowExperienceAsPercentage;
             var entityExperienceToNextLevel = (float)((Player)MyEntity).GetNextLevelExperience();
 

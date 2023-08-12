@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -14,6 +14,7 @@
     <AssemblyName>Intersect Server</AssemblyName>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <FileAlignment>512</FileAlignment>
+    <DebugType>embedded</DebugType>
     <GenerateRuntimeConfigurationFiles>True</GenerateRuntimeConfigurationFiles>
   </PropertyGroup>
 
@@ -110,7 +111,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Validation" Version="15.5.31" />
     <PackageReference Include="Mono.Data.Sqlite.Portable" Version="1.0.3.5" />
     <PackageReference Include="MySqlConnector" Version="0.45.1" />
-    <PackageReference Include="NuGet.CommandLine" Version="4.9.6" />
+    <PackageReference Include="NuGet.CommandLine" Version="5.11.5" />
     <PackageReference Include="Owin" Version="1.0" />
     <PackageReference Include="Owin.Security.AesDataProtectorProvider" Version="1.1.2" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.1.2" />
@@ -123,7 +124,7 @@
     <PackageReference Include="SQLitePCLRaw.lib.e_sqlite3.osx" Version="1.1.11" />
     <PackageReference Include="SQLitePCLRaw.lib.e_sqlite3.v110_xp" Version="1.1.11" />
     <PackageReference Include="SQLitePCLRaw.provider.e_sqlite3.net45" Version="1.1.11" />
-    <PackageReference Include="Swashbuckle.Core" Version="5.6.0" />
+    <!-- <PackageReference Include="Swashbuckle.Core" Version="5.6.0" /> -->
     <PackageReference Include="System.Text.Encodings.Web" Version="6.0.0" />
     <PackageReference Include="System.Text.Json" Version="6.0.6" />
     <PackageReference Include="TaskParallelLibrary" Version="1.0.2856.0" />

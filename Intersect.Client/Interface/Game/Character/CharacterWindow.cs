@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 using Intersect.Client.Core;
 using Intersect.Client.Framework.File_Management;
-using Intersect.Client.Framework.Graphics;
 using Intersect.Client.Framework.Gwen;
 using Intersect.Client.Framework.Gwen.Control;
 using Intersect.Client.Framework.Gwen.Control.EventArguments;
@@ -191,27 +190,27 @@ namespace Intersect.Client.Interface.Game.Character
         //Update Button Event Handlers
         void _addMagicResistBtn_Clicked(Base sender, ClickedEventArgs arguments)
         {
-            PacketSender.SendUpgradeStat((int) Stats.MagicResist);
+            PacketSender.SendUpgradeStat((int) Stat.MagicResist);
         }
 
         void _addAbilityPwrBtn_Clicked(Base sender, ClickedEventArgs arguments)
         {
-            PacketSender.SendUpgradeStat((int) Stats.AbilityPower);
+            PacketSender.SendUpgradeStat((int) Stat.AbilityPower);
         }
 
         void _addSpeedBtn_Clicked(Base sender, ClickedEventArgs arguments)
         {
-            PacketSender.SendUpgradeStat((int) Stats.Speed);
+            PacketSender.SendUpgradeStat((int) Stat.Speed);
         }
 
         void _addDefenseBtn_Clicked(Base sender, ClickedEventArgs arguments)
         {
-            PacketSender.SendUpgradeStat((int) Stats.Defense);
+            PacketSender.SendUpgradeStat((int) Stat.Defense);
         }
 
         void _addAttackBtn_Clicked(Base sender, ClickedEventArgs arguments)
         {
-            PacketSender.SendUpgradeStat((int) Stats.Attack);
+            PacketSender.SendUpgradeStat((int) Stat.Attack);
         }
 
         //Methods
@@ -484,7 +483,7 @@ namespace Intersect.Client.Interface.Game.Character
             }
 
             //Getting extra buffs
-            if (item.Effects.Find(effect => effect.Type != EffectType.None && effect.Percentage > 0) != default)
+            if (item.Effects.Find(effect => effect.Type != ItemEffect.None && effect.Percentage > 0) != default)
             {
                 foreach(var effect in item.Effects)
                 {
@@ -495,32 +494,32 @@ namespace Intersect.Client.Interface.Game.Character
 
                     switch (effect.Type)
                     {
-                        case EffectType.CooldownReduction:
+                        case ItemEffect.CooldownReduction:
                             CooldownAmount += effect.Percentage;
                             mCooldownReduction?.SetText(Strings.Character.CooldownReduction.ToString(CooldownAmount));
 
                             break;
-                        case EffectType.Lifesteal:
+                        case ItemEffect.Lifesteal:
                             LifeStealAmount += effect.Percentage;
                             mLifeSteal?.SetText(Strings.Character.Lifesteal.ToString(LifeStealAmount));
 
                             break;
-                        case EffectType.Tenacity:
+                        case ItemEffect.Tenacity:
                             TenacityAmount += effect.Percentage;
                             mTenacity?.SetText(Strings.Character.Tenacity.ToString(TenacityAmount));
 
                             break;
-                        case EffectType.Luck:
+                        case ItemEffect.Luck:
                             LuckAmount += effect.Percentage;
                             mLuck?.SetText(Strings.Character.Luck.ToString(LuckAmount));
 
                             break;
-                        case EffectType.EXP:
+                        case ItemEffect.EXP:
                             ExtraExpAmount += effect.Percentage;
                             mExtraExp?.SetText(Strings.Character.ExtraExp.ToString(ExtraExpAmount));
 
                             break;
-                        case EffectType.Manasteal:
+                        case ItemEffect.Manasteal:
                             ManaStealAmount += effect.Percentage;
                             mManaSteal?.SetText(Strings.Character.Manasteal.ToString(ManaStealAmount));
 

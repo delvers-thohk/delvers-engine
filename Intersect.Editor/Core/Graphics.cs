@@ -17,6 +17,7 @@ using Intersect.Utilities;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MapAttribute = Intersect.Enums.MapAttribute;
 
 namespace Intersect.Editor.Core
 {
@@ -914,7 +915,7 @@ namespace Intersect.Editor.Core
                             for (var y = 0; y < Options.MapHeight; y++)
                             {
                                 var attr = tmpMap.Attributes[x, y];
-                                if ((attr?.Type ?? MapAttributes.Walkable) == MapAttributes.Walkable)
+                                if ((attr?.Type ?? MapAttribute.Walkable) == MapAttribute.Walkable)
                                 {
                                     continue;
                                 }
@@ -1350,7 +1351,7 @@ namespace Intersect.Editor.Core
                         continue;
                     }
 
-                    if (tmpMap.Attributes[x, y].Type == MapAttributes.Resource && !upper && !alternate)
+                    if (tmpMap.Attributes[x, y].Type == MapAttribute.Resource && !upper && !alternate)
                     {
                         var resource = ResourceBase.Get(((MapResourceAttribute) tmpMap.Attributes[x, y]).ResourceId);
                         if (resource == null)
@@ -1419,7 +1420,7 @@ namespace Intersect.Editor.Core
                             DrawTexture(res, xpos, ypos, 0, 0, res.Width, res.Height, renderTarget);
                         }
                     }
-                    else if (tmpMap.Attributes[x, y].Type == MapAttributes.Animation)
+                    else if (tmpMap.Attributes[x, y].Type == MapAttribute.Animation)
                     {
                         var animation =
                             AnimationBase.Get(((MapAnimationAttribute) tmpMap.Attributes[x, y]).AnimationId);
@@ -1830,8 +1831,8 @@ namespace Intersect.Editor.Core
 
             // Calculate elapsed time since the last update and set maximum value for elapsedTime to
             // prevent large jumps in fog intensity (1 second maximum).
-            float elapsedTime = Math.Min(Timing.Global.Milliseconds - sFogUpdateTime, 1000);
-            sFogUpdateTime = Timing.Global.Milliseconds;
+            float elapsedTime = Math.Min(Timing.Global.MillisecondsUtc - sFogUpdateTime, 1000);
+            sFogUpdateTime = Timing.Global.MillisecondsUtc;
 
             // Calculate the number of times the fog texture needs to be drawn to cover the map area.
             var xCount = Globals.MapEditorWindow.picMap.Width * Options.TileWidth / fogTex.Width;

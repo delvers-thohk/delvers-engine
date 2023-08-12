@@ -15,7 +15,7 @@ namespace Intersect.Network.Packets.Server
 
 
         [Key(25)]
-        public int AccessLevel { get; set; }
+        public Access AccessLevel { get; set; }
 
 
         [Key(26)]

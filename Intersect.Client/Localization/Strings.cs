@@ -469,7 +469,7 @@ namespace Intersect.Client.Localization
 
             public static LocalizedString sixmonths = @"6 months";
 
-            public static LocalizedString cancel = @"Cancel:";
+            public static LocalizedString cancel = @"Cancel";
 
             public static LocalizedString duration = @"Duration:";
 
@@ -477,7 +477,7 @@ namespace Intersect.Client.Localization
 
             public static LocalizedString ip = @"Include IP:";
 
-            public static LocalizedString ok = @"Okay:";
+            public static LocalizedString ok = @"Okay";
 
             public static LocalizedString reason = @"Reason:";
 
@@ -610,6 +610,10 @@ namespace Intersect.Client.Localization
             public static LocalizedString title = @"Chat";
 
             public static LocalizedString toofast = @"You are chatting too fast!";
+
+            public static LocalizedString ToggleLogButtonToolTip = @"Toggle chat log visibility";
+            
+            public static LocalizedString ClearLogButtonToolTip = @"Clear chat log messages";
 
             public static Dictionary<ChatboxTab, LocalizedString> ChatTabButtons = new Dictionary<Enums.ChatboxTab, LocalizedString>() {
                 { ChatboxTab.All, @"All" },
@@ -1192,6 +1196,9 @@ namespace Intersect.Client.Localization
             public static LocalizedString Learn = @"Learn {00}";
 
             [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            public static LocalizedString Cast = @"Cast {00}";
+
+            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
             public static LocalizedString Drop = @"Drop {00}";
 
             [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
@@ -1709,6 +1716,9 @@ namespace Intersect.Client.Localization
 
             [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
             public static LocalizedString AutoCloseWindows = @"Auto-close Windows";
+            
+            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            public static LocalizedString AutoToggleChatLog = @"Auto-toggle chat log visibility";
 
             [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
             public static LocalizedString Cancel = @"Cancel";
@@ -1817,6 +1827,9 @@ namespace Intersect.Client.Localization
 
             [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
             public static LocalizedString Title = @"Settings";
+
+            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            public static LocalizedString TypewriterText = @"Typewriter Text";
 
             [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
             public static LocalizedString UnlimitedFps = @"No Limit";

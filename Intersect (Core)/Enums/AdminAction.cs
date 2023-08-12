@@ -1,9 +1,7 @@
 namespace Intersect.Enums
 {
-
-    public enum AdminActions
+    public enum AdminAction
     {
-
         None = 0,
 
         WarpTo,
@@ -35,7 +33,5 @@ namespace Intersect.Enums
         ReturnToOverworld,
 
         ViewStats
-
     }
-
 }

@@ -24,6 +24,7 @@ using Intersect.Network.Packets.Server;
 using Intersect.Utilities;
 
 using Newtonsoft.Json;
+using MapAttribute = Intersect.Enums.MapAttribute;
 
 namespace Intersect.Client.Maps
 {
@@ -81,8 +82,8 @@ namespace Intersect.Client.Maps
         IReadOnlyList<IMapItemInstance> IMapInstance.Items => MapItems.Values.SelectMany(x => x).ToList();
 
         //Map Attributes
-        private Dictionary<MapAttribute, Animation> mAttributeAnimInstances = new Dictionary<MapAttribute, Animation>();
-        private Dictionary<MapAttribute, Entity> mAttributeCritterInstances = new Dictionary<MapAttribute, Entity>();
+        private Dictionary<GameObjects.Maps.MapAttribute, Animation> mAttributeAnimInstances = new Dictionary<GameObjects.Maps.MapAttribute, Animation>();
+        private Dictionary<GameObjects.Maps.MapAttribute, Entity> mAttributeCritterInstances = new Dictionary<GameObjects.Maps.MapAttribute, Entity>();
 
         protected float mCurFogIntensity;
 
@@ -512,7 +513,7 @@ namespace Intersect.Client.Maps
                         continue;
                     }
 
-                    if (att.Type == MapAttributes.Animation)
+                    if (att.Type == MapAttribute.Animation)
                     {
                         var anim = AnimationBase.Get(((MapAnimationAttribute)att).AnimationId);
                         if (anim == null)
@@ -535,7 +536,7 @@ namespace Intersect.Client.Maps
                     }
 
 
-                    if (att.Type == MapAttributes.Critter)
+                    if (att.Type == MapAttribute.Critter)
                     {
                         var critterAttribute = ((MapCritterAttribute)att);
                         var sprite = critterAttribute.Sprite;
@@ -584,7 +585,7 @@ namespace Intersect.Client.Maps
                 for (var y = 0; y < Options.MapHeight; ++y)
                 {
                     var attribute = Attributes?[x, y];
-                    if (attribute?.Type != MapAttributes.Sound)
+                    if (attribute?.Type != MapAttribute.Sound)
                     {
                         continue;
                     }
@@ -610,7 +611,7 @@ namespace Intersect.Client.Maps
         }
 
         //Animations
-        public void AddTileAnimation(Guid animId, int tileX, int tileY, int dir = -1, IEntity owner = null)
+        public void AddTileAnimation(Guid animId, int tileX, int tileY, Direction dir = Direction.None, IEntity owner = null)
         {
             var animBase = AnimationBase.Get(animId);
             if (animBase == null)
@@ -862,8 +863,8 @@ namespace Intersect.Client.Maps
             {
                 if (!buffer.UpdateTile(
                     tileset, destX, destY,
-                    (int)Autotiles.Layers[layerName][x, y].QuarterTile[quarterNum].X + xOffset,
-                    (int)Autotiles.Layers[layerName][x, y].QuarterTile[quarterNum].Y + yOffset,
+                    Autotiles.Layers[layerName][x, y].QuarterTile[quarterNum].X + xOffset,
+                    Autotiles.Layers[layerName][x, y].QuarterTile[quarterNum].Y + yOffset,
                     Options.TileWidth / 2, Options.TileHeight / 2
                 ))
                 {
@@ -874,8 +875,8 @@ namespace Intersect.Client.Maps
             {
                 if (!buffer.AddTile(
                     tileset, destX, destY,
-                    (int)Autotiles.Layers[layerName][x, y].QuarterTile[quarterNum].X + xOffset,
-                    (int)Autotiles.Layers[layerName][x, y].QuarterTile[quarterNum].Y + yOffset,
+                    Autotiles.Layers[layerName][x, y].QuarterTile[quarterNum].X + xOffset,
+                    Autotiles.Layers[layerName][x, y].QuarterTile[quarterNum].Y + yOffset,
                     Options.TileWidth / 2, Options.TileHeight / 2
                 ))
                 {
@@ -1023,8 +1024,8 @@ namespace Intersect.Client.Maps
 
             // Calculate elapsed time since the last update and set maximum value for elapsedTime to
             // prevent large jumps in fog intensity (1 second maximum).
-            float elapsedTime = Math.Min(Timing.Global.Milliseconds - mFogUpdateTime, 1000);
-            mFogUpdateTime = Timing.Global.Milliseconds;
+            float elapsedTime = Math.Min(Timing.Global.MillisecondsUtc - mFogUpdateTime, 1000);
+            mFogUpdateTime = Timing.Global.MillisecondsUtc;
 
             // Update fog intensity based on whether the player is on the current map or not.
             mCurFogIntensity = Id == Globals.Me.MapId
@@ -1047,9 +1048,9 @@ namespace Intersect.Client.Maps
             var drawX = (float)Math.Round(mFogCurrentX);
             var drawY = (float)Math.Round(mFogCurrentY);
 
-            for (var x = 0; x <= xCount; x++)
+            for (var x = -1; x <= xCount; x++)
             {
-                for (var y = 0; y <= yCount; y++)
+                for (var y = -1; y <= yCount; y++)
                 {
                     Graphics.DrawGameTexture(
                         fogTex, new FloatRect(0, 0, fogTex.Width, fogTex.Height),
@@ -1082,15 +1083,15 @@ namespace Intersect.Client.Maps
 
             if ((WeatherXSpeed != 0 || WeatherYSpeed != 0) && Globals.Me.MapInstance == this)
             {
-                if (Timing.Global.Milliseconds > _weatherParticleSpawnTime)
+                if (Timing.Global.MillisecondsUtc > _weatherParticleSpawnTime)
                 {
                     _weatherParticles.Add(new WeatherParticle(_removeParticles, WeatherXSpeed, WeatherYSpeed, anim));
-                    var spawnTime = 25 + (int)(475 * (float)(1f - (float)(WeatherIntensity / 100f)));
+                    var spawnTime = 25 + (int)(475 * (1f - WeatherIntensity / 100f));
                     spawnTime = (int)(spawnTime *
                                        (480000f /
                                         (Graphics.Renderer.GetScreenWidth() * Graphics.Renderer.GetScreenHeight())));
 
-                    _weatherParticleSpawnTime = Timing.Global.Milliseconds + spawnTime;
+                    _weatherParticleSpawnTime = Timing.Global.MillisecondsUtc + spawnTime;
                 }
             }
 
@@ -1126,8 +1127,8 @@ namespace Intersect.Client.Maps
 
         public void DrawPanorama()
         {
-            float ecTime = Timing.Global.Milliseconds - mPanoramaUpdateTime;
-            mPanoramaUpdateTime = Timing.Global.Milliseconds;
+            float ecTime = Timing.Global.MillisecondsUtc - mPanoramaUpdateTime;
+            mPanoramaUpdateTime = Timing.Global.MillisecondsUtc;
             if (Id == Globals.Me.MapId)
             {
                 if (mPanoramaIntensity != 1)
@@ -1160,8 +1161,8 @@ namespace Intersect.Client.Maps
 
         public void DrawOverlayGraphic()
         {
-            float ecTime = Timing.Global.Milliseconds - mOverlayUpdateTime;
-            mOverlayUpdateTime = Timing.Global.Milliseconds;
+            float ecTime = Timing.Global.MillisecondsUtc - mOverlayUpdateTime;
+            mOverlayUpdateTime = Timing.Global.MillisecondsUtc;
             if (Id == Globals.Me.MapId)
             {
                 if (mOverlayIntensity != 1)
@@ -1259,14 +1260,14 @@ namespace Intersect.Client.Maps
                     ActionMessages[n].Y * Options.TileHeight -
                     Options.TileHeight *
                     2 *
-                    (1000 - (ActionMessages[n].TransmissionTimer - Timing.Global.Milliseconds)) /
+                    (1000 - (ActionMessages[n].TransmissionTimer - Timing.Global.MillisecondsUtc)) /
                     1000
                 );
 
                 var x = (int)Math.Ceiling(GetX() + ActionMessages[n].X * Options.TileWidth + ActionMessages[n].XOffset);
                 var textWidth = Graphics.Renderer.MeasureText(ActionMessages[n].Msg, Graphics.ActionMsgFont, 1).X;
                 Graphics.Renderer.DrawString(
-                    ActionMessages[n].Msg, Graphics.ActionMsgFont, (int)x - textWidth / 2f, (int)y, 1, ActionMessages[n].Color,
+                    ActionMessages[n].Msg, Graphics.ActionMsgFont, x - textWidth / 2f, y, 1, ActionMessages[n].Color,
                     true, null, new Color(40, 40, 40)
                 );
 

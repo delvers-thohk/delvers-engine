@@ -447,7 +447,7 @@ namespace Intersect.Server.Admin.Actions
         //WarpToMapAction
         public static void ProcessAction(Player player, WarpToMapAction action)
         {
-            player.Warp(action.MapId, (byte) player.X, (byte) player.Y);
+            player.Warp(action.MapId, player.X, player.Y);
         }
 
         //WarpToMeAction
